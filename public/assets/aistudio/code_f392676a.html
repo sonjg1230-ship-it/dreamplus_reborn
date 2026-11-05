@@ -1,0 +1,746 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="ko"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>더리본 | 최신가전 100% 전액지원 이벤트</title>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Google Fonts: Noto Sans KR -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&amp;family=Noto+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS with Forms and Container Queries -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-surface": "#131b2e",
+            "on-primary": "#ffffff",
+            "primary-fixed": "#dde1ff",
+            "surface-container-highest": "#dae2fd",
+            "surface-tint": "#3755c3",
+            "on-secondary-fixed": "#00174b",
+            "on-secondary": "#ffffff",
+            "status-urgency": "#DC2626",
+            "on-error-container": "#93000a",
+            "on-background": "#131b2e",
+            "ticker-badge": "#FEF3C7",
+            "inverse-on-surface": "#eef0ff",
+            "surface-bright": "#faf8ff",
+            "outline": "#757684",
+            "on-primary-fixed-variant": "#173bab",
+            "secondary-fixed-dim": "#b4c5ff",
+            "on-secondary-container": "#fefcff",
+            "outline-variant": "#c4c5d5",
+            "accent-coral": "#F97316",
+            "error-container": "#ffdad6",
+            "on-tertiary": "#ffffff",
+            "surface-container": "#eaedff",
+            "on-primary-fixed": "#001453",
+            "secondary": "#0051d5",
+            "tertiary": "#611e00",
+            "on-tertiary-fixed-variant": "#7f2b00",
+            "surface-container-high": "#e2e7ff",
+            "inverse-primary": "#b8c4ff",
+            "on-secondary-fixed-variant": "#003ea8",
+            "primary-container": "#1e40af",
+            "border-focus": "#3B82F6",
+            "surface-dim": "#d2d9f4",
+            "inverse-surface": "#283044",
+            "border-default": "#E2E8F0",
+            "secondary-fixed": "#dbe1ff",
+            "tertiary-fixed-dim": "#ffb599",
+            "on-primary-container": "#a8b8ff",
+            "tertiary-fixed": "#ffdbce",
+            "background": "#faf8ff",
+            "secondary-container": "#316bf3",
+            "on-tertiary-fixed": "#370e00",
+            "on-tertiary-container": "#ffa582",
+            "surface-container-low": "#f2f3ff",
+            "surface-variant": "#dae2fd",
+            "surface-card": "#FFFFFF",
+            "surface-container-lowest": "#ffffff",
+            "on-surface-variant": "#444653",
+            "primary": "#00288e",
+            "accent-emerald": "#059669",
+            "tertiary-container": "#872d00",
+            "error": "#ba1a1a",
+            "surface-subtle": "#F8FAFC",
+            "surface": "#faf8ff",
+            "primary-fixed-dim": "#b8c4ff",
+            "on-error": "#ffffff"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "gutter": "1rem",
+            "margin-desktop": "3rem",
+            "margin-tablet": "2rem",
+            "gutter-desktop": "1.5rem",
+            "space-xl": "2.5rem",
+            "space-sm": "0.5rem",
+            "margin": "1rem",
+            "space-md": "1rem",
+            "space-xs": "0.25rem",
+            "space-lg": "1.5rem"
+          },
+          "fontFamily": {
+            "headline-sm": ["Noto Sans", "Noto Sans KR"],
+            "caption-legal": ["Noto Sans", "Noto Sans KR"],
+            "headline-lg": ["Noto Sans", "Noto Sans KR"],
+            "body-md": ["Noto Sans", "Noto Sans KR"],
+            "body-sm": ["Noto Sans", "Noto Sans KR"],
+            "display-hero": ["Noto Sans", "Noto Sans KR"],
+            "label-lg": ["Noto Sans", "Noto Sans KR"],
+            "label-sm": ["Noto Sans", "Noto Sans KR"],
+            "display-hero-mobile": ["Noto Sans", "Noto Sans KR"],
+            "headline-lg-mobile": ["Noto Sans", "Noto Sans KR"],
+            "body-lg": ["Noto Sans", "Noto Sans KR"],
+            "label-md": ["Noto Sans", "Noto Sans KR"],
+            "headline-md": ["Noto Sans", "Noto Sans KR"]
+          },
+          "fontSize": {
+            "headline-sm": ["18px", { "lineHeight": "26px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "caption-legal": ["11px", { "lineHeight": "18px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "headline-lg": ["32px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-hero": ["44px", { "lineHeight": "58px", "letterSpacing": "-0.03em", "fontWeight": "800" }],
+            "label-lg": ["16px", { "lineHeight": "22px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+            "display-hero-mobile": ["30px", { "lineHeight": "40px", "letterSpacing": "-0.025em", "fontWeight": "800" }],
+            "headline-lg-mobile": ["24px", { "lineHeight": "34px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "body-lg": ["17px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+            "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0em", "fontWeight": "600" }],
+            "headline-md": ["22px", { "lineHeight": "32px", "letterSpacing": "-0.015em", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    @keyframes pulse-subtle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(0.98); }
+    }
+    .animate-pulse-subtle {
+      animation: pulse-subtle 2s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary">
+<!-- TOP COUNTDOWN BAR (URGENCY BANNER) -->
+<aside class="fixed top-0 left-0 right-0 z-50 bg-[#0F172A] text-on-primary shadow-md flex items-center justify-between px-3 h-10 max-w-xl mx-auto border-b-0">
+<div class="flex items-center gap-1.5 text-label-sm font-label-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-status-urgency animate-ping"></span>
+<span class="text-accent-coral font-bold">선착순 마감임박</span>
+<span class="text-outline-variant">|</span>
+<span class="text-surface-bright hidden xs:inline">오늘 접수 마감까지</span>
+<span class="text-surface-bright xs:hidden">마감까지</span>
+</div>
+<div class="flex items-center gap-1 font-mono text-label-sm font-label-sm">
+<span class="bg-status-urgency px-1.5 py-0.5 rounded text-on-primary font-bold tracking-wider" id="countdown-timer">21:51:49</span>
+<span class="text-caption-legal font-caption-legal text-surface-container-highest">남음</span>
+</div>
+</aside>
+<!-- SHARED COMPONENT: TopAppBar (Aligned with JSON and Brand requirements) -->
+<header class="fixed top-10 left-0 right-0 z-40 bg-surface dark:bg-inverse-surface shadow-sm dark:shadow-none flex justify-between items-center px-4 max-w-xl mx-auto h-14">
+<div class="flex items-center gap-2">
+<!-- 더리본 로고 이미지 -->
+<a class="flex items-center gap-1.5 active:scale-95 transition-transform duration-150" href="#">
+<img alt="더리본" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlJ4GVloDaYpK2zGpOUg9M5rzJvTFyWQfMtxapfQQ0uvUx00pY4tZ5P4lChIL_HpE4oOFotzNUFobtSesCAShSRYy6qfSdbLRKZSU0e6iB7c3YZHSv-t1e3Ade9zRB4pV86oFyV_OD0srsb1iKyJa0O4sVxNw0rReBLmDRyeVoD-knNcWondFxfqziypYIILlfHJ5ANIWrvlMyLfFL_HshNu1W1o9wXeuxb2BtLPTmeEfamtRqyi31DA">
+<span class="text-headline-sm font-headline-sm text-primary dark:text-inverse-primary font-bold">더리본</span>
+</a>
+<span class="bg-surface-container text-primary text-label-sm font-label-sm font-bold px-2 py-0.5 rounded-full border border-surface-container-highest">
+        100% 전액지원
+      </span>
+</div>
+<a class="bg-primary-container text-on-primary px-3.5 py-1.5 rounded-lg text-label-md font-label-md active:scale-95 transition-transform duration-150 shadow-sm flex items-center gap-1" href="#application-form">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<span class="">간편상담</span>
+</a>
+</header>
+<!-- MAIN CANVAS (Max Width 640px Mobile Optimised Funnel) -->
+<main class="pt-24 pb-28 max-w-xl mx-auto px-4 bg-surface min-h-screen">
+<!-- 1. HERO SECTION -->
+<section class="mt-2 mb-8">
+<!-- 삼성/LG 파트너십 뱃지 -->
+<div class="inline-flex items-center gap-1.5 bg-surface-container-high px-3 py-1 rounded-full text-secondary text-label-sm font-label-sm mb-3">
+<span class="material-symbols-outlined text-[16px] text-secondary">verified</span>
+<span class="">삼성 · LG 공식인증 파트너십 특별 기획전</span>
+</div>
+<!-- 메인 카피 -->
+<h1 class="text-display-hero-mobile font-display-hero-mobile text-on-surface tracking-tight mb-2">
+        최신가전, <br>
+<span class="text-primary-container underline decoration-accent-coral decoration-wavy decoration-2">전액지원</span> 받아가기
+      </h1>
+<p class="text-body-md font-body-md text-on-surface-variant mb-5">
+        멤버십 가입하고 삼성, LG 프리미엄 최신가전을 본인부담금 0원으로 장만하세요!
+      </p>
+<!-- 핵심 자격요건 칩 세로 스택 -->
+<div class="grid grid-cols-1 gap-2.5 mb-6">
+<div class="flex items-center gap-3 p-3 bg-surface-card rounded-xl border border-border-default shadow-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">filter_2</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md text-on-surface">1인 최대 2개 제품 전액 무상지원</span>
+<span class="text-caption-legal font-caption-legal text-outline">TV, 세탁기, 냉장고 등 원하는 품목 2개까지 선택 가능</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-card rounded-xl border border-border-default shadow-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">person_check</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md text-on-surface">만 25세 ~ 63세 대상 (신용 결격사유 없는 분)</span>
+<span class="text-caption-legal font-caption-legal text-outline">대한민국 성인 남녀 누구나 조건 충족 시 100% 대상자 선정</span>
+</div>
+</div>
+<div class="flex items-center gap-3 p-3 bg-surface-card rounded-xl border border-border-default shadow-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[20px]">local_shipping</span>
+</div>
+<div class="flex flex-col">
+<span class="text-label-md font-label-md text-on-surface">제조사 정품 신제품 공장출고 &amp; 무료 배송설치</span>
+<span class="text-caption-legal font-caption-legal text-outline">리퍼브 No, 본사 직배송 전문 기사 안전 무료 설치</span>
+</div>
+</div>
+</div>
+<!-- 프리미엄 인테리어 가전 쇼케이스 카드 -->
+<div class="relative overflow-hidden rounded-2xl bg-surface-card border border-border-default shadow-md group">
+<div class="relative h-60 w-full overflow-hidden">
+<img alt="LG Objet Collection 및 Samsung Bespoke 프리미엄 인테리어 주방 가전" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1UbTGyUSMZgXGKiA1AiQoxuzGe6Xwu1NTEK3XKd0sUJnahkuIpx2pljEMqJSnRVZK4269G8aTdniLCD8fNdqdq2RTxObQ-JdPmBbfb-QpK86DhIR8nBWOply_WSaU9ET2cnPL24MR0r0DEenEifcGFXPKHboAelZ7Ec5zqtmGLSvmyK-SglZhWjSjQ7o3RM9PmfAcmFxxPGBx04kXng-0KDMbE8sFh9WpsFLw7Crm8Sgw">
+<div class="absolute inset-0 bg-gradient-to-t from-[#0F172A]/80 via-transparent to-black/20"></div>
+<div class="absolute top-3 left-3 bg-primary-container text-on-primary text-label-sm font-label-sm px-2.5 py-1 rounded-md shadow flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">star</span>
+<span class="">LG Objet &amp; Samsung Bespoke 특별전</span>
+</div>
+<div class="absolute bottom-3 left-3 right-3 text-on-primary">
+<span class="text-caption-legal font-caption-legal text-surface-container-highest tracking-wide uppercase">Official Household Appliance Subsidy</span>
+<h3 class="text-headline-sm font-headline-sm font-bold text-on-primary drop-shadow-sm">최신 냉장고 · 워시타워 · 대형TV 전액지원</h3>
+<p class="text-label-sm font-label-sm text-surface-bright opacity-90 mt-0.5">시중가 200~300만원대 하이엔드 라인업 그대로 무상 제공</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. SPECIAL MEMBERSHIP 3대 핵심 혜택 카드 -->
+<section class="mb-10">
+<div class="text-center mb-5">
+<span class="text-accent-coral text-label-sm font-label-sm font-bold">SPECIAL BENEFIT</span>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface mt-1">더리본 스페셜 멤버십 3대 혜택</h2>
+<p class="text-body-sm font-body-sm text-on-surface-variant">가전도 지원받고, 납입금은 만기 시 전액 그대로 환급!</p>
+</div>
+<div class="space-y-3.5">
+<!-- 혜택 01 -->
+<div class="bg-surface-card p-4 rounded-xl border border-border-default shadow-sm relative overflow-hidden">
+<div class="absolute -right-2 -bottom-2 text-surface-container-high/40 text-[72px] font-bold select-none leading-none">01</div>
+<div class="flex items-start gap-3 relative z-10">
+<div class="w-10 h-10 rounded-xl bg-primary-container text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">redeem</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm font-bold text-primary-container">BENEFIT 01</span>
+<span class="bg-status-urgency text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded">즉시지급</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mt-0.5">스페셜멤버십 최신 가전 전액 지원</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+                월 3~6만원대 부담 없는 알뜰 멤버십 구성으로, 가입 즉시 최신 프리미엄 가전을 본인부담금 0원에 무상 증정합니다.
+              </p>
+</div>
+</div>
+</div>
+<!-- 혜택 02 -->
+<div class="bg-surface-card p-4 rounded-xl border border-border-default shadow-sm relative overflow-hidden">
+<div class="absolute -right-2 -bottom-2 text-surface-container-high/40 text-[72px] font-bold select-none leading-none">02</div>
+<div class="flex items-start gap-3 relative z-10">
+<div class="w-10 h-10 rounded-xl bg-secondary text-on-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">flight_takeoff</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm font-bold text-secondary">BENEFIT 02</span>
+<span class="bg-surface-container text-primary text-[10px] font-bold px-1.5 py-0.5 rounded">라이프케어</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mt-0.5">폭넓은 라이프 전환 멤버십 서비스</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+                여행, 크루즈, 웨딩, 어학연수, 프리미엄 이사 및 패밀리 라이프 서비스까지 원할 때 언제든 필요한 혜택으로 전환 이용 가능합니다.
+              </p>
+</div>
+</div>
+</div>
+<!-- 혜택 03 -->
+<div class="bg-surface-card p-4 rounded-xl border border-border-default shadow-sm relative overflow-hidden">
+<div class="absolute -right-2 -bottom-2 text-surface-container-high/40 text-[72px] font-bold select-none leading-none">03</div>
+<div class="flex items-start gap-3 relative z-10">
+<div class="w-10 h-10 rounded-xl bg-accent-emerald text-on-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">savings</span>
+</div>
+<div>
+<div class="flex items-center gap-2">
+<span class="text-label-sm font-label-sm font-bold text-accent-emerald">BENEFIT 03</span>
+<span class="bg-ticker-badge text-on-surface text-[10px] font-bold px-1.5 py-0.5 rounded border border-amber-300">100% 반환</span>
+</div>
+<h3 class="text-headline-sm font-headline-sm text-on-surface mt-0.5">만기 시 납입금 100% 전액 환급</h3>
+<p class="text-body-sm font-body-sm text-on-surface-variant mt-1">
+                지원받은 가전 반납 의무 일체 없음! 만기 시 납입하신 금액 100% 전액을 그대로 안전하게 환급해 드립니다.
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- 강조 배너 -->
+<div class="mt-4 p-4 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary flex items-center justify-between shadow-md">
+<div>
+<p class="text-label-sm font-label-sm text-surface-container-highest">부담 없는 0원 가전 솔루션</p>
+<h4 class="text-headline-sm font-headline-sm font-bold">100% 전액지원 + 100% 전액환급!</h4>
+</div>
+<a class="bg-surface-card text-primary px-3.5 py-2 rounded-lg text-label-md font-label-md shrink-0 shadow active:scale-95 transition-transform" href="#application-form">
+          자격확인 &gt;
+        </a>
+</div>
+</section>
+<!-- 3. 지원 가전 프리미엄 라인업 (터치 친화적 모바일 카드 그리드) -->
+<section class="mb-10">
+<div class="flex items-center justify-between mb-4">
+<div>
+<span class="text-primary text-label-sm font-label-sm font-bold">POPULAR LINEUP</span>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface">인기 지원가전 라인업</h2>
+</div>
+<span class="text-caption-legal font-caption-legal text-outline">총 80여 종 지원</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<!-- 가전 1: 대형 TV -->
+<div class="bg-surface-card p-3 rounded-xl border border-border-default shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="bg-status-urgency text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded">인기 1위</span>
+<span class="text-[10px] text-outline">삼성/LG</span>
+</div>
+<div class="w-full h-24 bg-surface-subtle rounded-lg flex items-center justify-center mb-2 border border-border-default/50">
+<span class="material-symbols-outlined text-[44px] text-primary">tv</span>
+</div>
+<h3 class="text-label-md font-label-md text-on-surface leading-tight">대형 TV &amp; 사운드바</h3>
+<p class="text-caption-legal font-caption-legal text-on-surface-variant mt-0.5">75인치 / 85인치 86인치 UHD</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-border-default flex items-center justify-between">
+<span class="text-caption-legal font-caption-legal text-outline">지원금</span>
+<span class="text-label-sm font-label-sm font-bold text-status-urgency">전액 100% 무상</span>
+</div>
+</div>
+<!-- 가전 2: 냉장고 -->
+<div class="bg-surface-card p-3 rounded-xl border border-border-default shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="bg-secondary text-on-secondary text-[10px] font-bold px-1.5 py-0.5 rounded">베스트</span>
+<span class="text-[10px] text-outline">비스포크/오브제</span>
+</div>
+<div class="w-full h-24 bg-surface-subtle rounded-lg flex items-center justify-center mb-2 border border-border-default/50">
+<span class="material-symbols-outlined text-[44px] text-primary">kitchen</span>
+</div>
+<h3 class="text-label-md font-label-md text-on-surface leading-tight">양문형 / 김치냉장고</h3>
+<p class="text-caption-legal font-caption-legal text-on-surface-variant mt-0.5">대용량 4도어 최신 모델</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-border-default flex items-center justify-between">
+<span class="text-caption-legal font-caption-legal text-outline">지원금</span>
+<span class="text-label-sm font-label-sm font-bold text-status-urgency">전액 100% 무상</span>
+</div>
+</div>
+<!-- 가전 3: 세탁건조기 -->
+<div class="bg-surface-card p-3 rounded-xl border border-border-default shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="bg-primary-container text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded">주부추천</span>
+<span class="text-[10px] text-outline">일체형 워시</span>
+</div>
+<div class="w-full h-24 bg-surface-subtle rounded-lg flex items-center justify-center mb-2 border border-border-default/50">
+<span class="material-symbols-outlined text-[44px] text-primary">local_laundry_service</span>
+</div>
+<h3 class="text-label-md font-label-md text-on-surface leading-tight">세탁기·건조기 원바디</h3>
+<p class="text-caption-legal font-caption-legal text-on-surface-variant mt-0.5">2in1 타워형 스마트 케어</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-border-default flex items-center justify-between">
+<span class="text-caption-legal font-caption-legal text-outline">지원금</span>
+<span class="text-label-sm font-label-sm font-bold text-status-urgency">전액 100% 무상</span>
+</div>
+</div>
+<!-- 가전 4: 에어컨 -->
+<div class="bg-surface-card p-3 rounded-xl border border-border-default shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="bg-accent-emerald text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded">시즌특가</span>
+<span class="text-[10px] text-outline">무풍/휘센</span>
+</div>
+<div class="w-full h-24 bg-surface-subtle rounded-lg flex items-center justify-center mb-2 border border-border-default/50">
+<span class="material-symbols-outlined text-[44px] text-primary">mode_fan</span>
+</div>
+<h3 class="text-label-md font-label-md text-on-surface leading-tight">시스템·스탠드 에어컨</h3>
+<p class="text-caption-legal font-caption-legal text-on-surface-variant mt-0.5">2in1 멀티형 쾌적 냉방</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-border-default flex items-center justify-between">
+<span class="text-caption-legal font-caption-legal text-outline">지원금</span>
+<span class="text-label-sm font-label-sm font-bold text-status-urgency">전액 100% 무상</span>
+</div>
+</div>
+<!-- 가전 5: 안마의자 -->
+<div class="bg-surface-card p-3 rounded-xl border border-border-default shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="bg-amber-600 text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded">효도선물</span>
+<span class="text-[10px] text-outline">코지마/바디프랜드</span>
+</div>
+<div class="w-full h-24 bg-surface-subtle rounded-lg flex items-center justify-center mb-2 border border-border-default/50">
+<span class="material-symbols-outlined text-[44px] text-primary">chair</span>
+</div>
+<h3 class="text-label-md font-label-md text-on-surface leading-tight">헬스케어 안마의자</h3>
+<p class="text-caption-legal font-caption-legal text-on-surface-variant mt-0.5">전신 체형 맞춤 스트레칭</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-border-default flex items-center justify-between">
+<span class="text-caption-legal font-caption-legal text-outline">지원금</span>
+<span class="text-label-sm font-label-sm font-bold text-status-urgency">전액 100% 무상</span>
+</div>
+</div>
+<!-- 가전 6: 기타 가전 -->
+<div class="bg-surface-card p-3 rounded-xl border border-border-default shadow-sm flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-center mb-2">
+<span class="bg-outline text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded">+80여종</span>
+<span class="text-[10px] text-outline">디지털가전</span>
+</div>
+<div class="w-full h-24 bg-surface-subtle rounded-lg flex items-center justify-center mb-2 border border-border-default/50">
+<span class="material-symbols-outlined text-[44px] text-primary">devices_other</span>
+</div>
+<h3 class="text-label-md font-label-md text-on-surface leading-tight">노트북 · 스타일러 등</h3>
+<p class="text-caption-legal font-caption-legal text-on-surface-variant mt-0.5">골프클럽, 청소기 외 다수</p>
+</div>
+<div class="mt-2.5 pt-2 border-t border-border-default flex items-center justify-between">
+<span class="text-caption-legal font-caption-legal text-outline">지원금</span>
+<span class="text-label-sm font-label-sm font-bold text-status-urgency">전액 100% 무상</span>
+</div>
+</div>
+</div>
+<p class="text-caption-legal font-caption-legal text-center text-outline mt-2.5">
+        ※ 1인당 서로 다른 2개 품목까지 중복 신청 가능합니다.
+      </p>
+</section>
+<!-- 4. 신청 절차 3단계 -->
+<section class="mb-10 bg-surface-subtle p-4 rounded-2xl border border-border-default">
+<div class="text-center mb-4">
+<h3 class="text-headline-sm font-headline-sm text-on-surface">간편 3단계 신청 프로세스</h3>
+<p class="text-caption-legal font-caption-legal text-on-surface-variant">서류 방문 없이 모바일로 간편하게 접수 완료</p>
+</div>
+<div class="grid grid-cols-3 gap-2 text-center relative">
+<!-- Step 1 -->
+<div class="bg-surface-card p-2.5 rounded-xl border border-border-default shadow-sm flex flex-col items-center">
+<span class="w-6 h-6 rounded-full bg-primary-container text-on-primary text-caption-legal font-caption-legal font-bold flex items-center justify-center mb-1.5">1</span>
+<span class="text-label-sm font-label-sm font-bold text-on-surface">상담 신청</span>
+<span class="text-[10px] text-outline mt-0.5">원하는 가전 선택</span>
+</div>
+<!-- Step 2 -->
+<div class="bg-surface-card p-2.5 rounded-xl border border-border-default shadow-sm flex flex-col items-center">
+<span class="w-6 h-6 rounded-full bg-secondary text-on-secondary text-caption-legal font-caption-legal font-bold flex items-center justify-center mb-1.5">2</span>
+<span class="text-label-sm font-label-sm font-bold text-on-surface">가입 상담</span>
+<span class="text-[10px] text-outline mt-0.5">전문상담원 안내</span>
+</div>
+<!-- Step 3 -->
+<div class="bg-surface-card p-2.5 rounded-xl border border-border-default shadow-sm flex flex-col items-center">
+<span class="w-6 h-6 rounded-full bg-accent-emerald text-on-primary text-caption-legal font-caption-legal font-bold flex items-center justify-center mb-1.5">3</span>
+<span class="text-label-sm font-label-sm font-bold text-on-surface">방문 설치</span>
+<span class="text-[10px] text-outline mt-0.5">본사 무료 배송</span>
+</div>
+</div>
+</section>
+<!-- 5. 실시간 접수 현황 (LIVE TICKER TABLE) -->
+<section class="mb-10">
+<div class="flex items-center justify-between mb-3 px-1">
+<div class="flex items-center gap-2">
+<span class="w-2.5 h-2.5 rounded-full bg-accent-emerald animate-ping"></span>
+<h2 class="text-headline-sm font-headline-sm text-on-surface">실시간 접수 현황</h2>
+</div>
+<span class="bg-ticker-badge text-on-surface text-[11px] font-bold px-2 py-0.5 rounded-full border border-amber-300">
+          실시간 접수중
+        </span>
+</div>
+<div class="bg-surface-card rounded-xl border border-border-default shadow-sm overflow-hidden">
+<!-- Table Header -->
+<div class="grid grid-cols-4 bg-surface-subtle text-caption-legal font-caption-legal text-on-surface-variant font-bold px-3 py-2 border-b border-border-default text-center">
+<div class="">접수일</div>
+<div class="">고객명</div>
+<div class="">연락처</div>
+<div class="">연령대</div>
+</div>
+<!-- Table Rolling Rows (Real Data from Reference) -->
+<div class="divide-y divide-border-default/60 text-caption-legal font-caption-legal max-h-56 overflow-y-auto">
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">한*예</span>
+<span class="font-mono text-primary font-bold">010-5***-****</span>
+<span class="text-on-surface-variant">30대</span>
+</div>
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">김*호</span>
+<span class="font-mono text-primary font-bold">010-4***-****</span>
+<span class="text-on-surface-variant">40대</span>
+</div>
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">안*희</span>
+<span class="font-mono text-primary font-bold">010-9***-****</span>
+<span class="text-on-surface-variant">50대</span>
+</div>
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">김*연</span>
+<span class="font-mono text-primary font-bold">010-2***-****</span>
+<span class="text-on-surface-variant">30대</span>
+</div>
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">박**</span>
+<span class="font-mono text-primary font-bold">010-4***-****</span>
+<span class="text-on-surface-variant">40대</span>
+</div>
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">조*경</span>
+<span class="font-mono text-primary font-bold">010-4***-****</span>
+<span class="text-on-surface-variant">50대</span>
+</div>
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">이**</span>
+<span class="font-mono text-primary font-bold">010-9***-****</span>
+<span class="text-on-surface-variant">20대</span>
+</div>
+<div class="grid grid-cols-4 px-3 py-2.5 text-center text-on-surface items-center hover:bg-surface-container-low transition-colors">
+<span class="text-outline">2026-11-05</span>
+<span class="font-bold">장*영</span>
+<span class="font-mono text-primary font-bold">010-6***-****</span>
+<span class="text-on-surface-variant">40대</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 6. 공식 지원 신청서 (HIGH-CONVERSION MOBILE FORM) -->
+<section class="scroll-mt-28 bg-surface-card rounded-2xl border-2 border-primary-container p-5 shadow-xl relative" id="application-form">
+<div class="text-center mb-5 border-b border-border-default pb-4">
+<span class="bg-primary-container text-on-primary text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+          선착순 한정 프로모션
+        </span>
+<h2 class="text-headline-lg-mobile font-headline-lg-mobile text-on-surface font-extrabold mt-2">
+          최신가전 100% 지원 신청서
+        </h2>
+<p class="text-caption-legal font-caption-legal text-status-urgency font-bold mt-1">
+          * 미성년자, 신용불량자는 신청이 불가능합니다 (만 25세~63세 한정)
+        </p>
+</div>
+<form class="space-y-4" id="lead-form" onsubmit="event.preventDefault(); alert('정상적으로 신청 접수되었습니다. 전문 상담사가 10분 내로 안내 전화를 드립니다.');">
+<!-- 이름 입력 -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface font-bold mb-1.5" for="user-name">
+            이름 <span class="text-status-urgency">*</span>
+</label>
+<input class="w-full h-12 px-3.5 rounded-xl border border-border-default bg-surface-subtle text-on-surface text-body-md font-body-md focus:border-border-focus focus:bg-surface-card focus:ring-2 focus:ring-border-focus/20 outline-none transition-all" id="user-name" placeholder="성함을 입력하세요 (예: 홍길동)" required="" type="text">
+<p class="text-caption-legal font-caption-legal text-outline mt-1">
+            * 본인 명의 성명을 정확히 기재해 주세요.
+          </p>
+</div>
+<!-- 연락처 입력 (3분할 세그먼트) -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface font-bold mb-1.5">
+            연락처 <span class="text-status-urgency">*</span>
+</label>
+<div class="flex items-center gap-2">
+<select class="w-24 h-12 px-2.5 rounded-xl border border-border-default bg-surface-subtle text-on-surface text-body-md font-body-md focus:border-border-focus focus:bg-surface-card focus:ring-2 focus:ring-border-focus/20 outline-none">
+<option value="010">010</option>
+<option value="011">011</option>
+<option value="016">016</option>
+<option value="017">017</option>
+<option value="019">019</option>
+</select>
+<span class="text-outline">-</span>
+<input class="w-full h-12 text-center rounded-xl border border-border-default bg-surface-subtle text-on-surface text-body-md font-body-md focus:border-border-focus focus:bg-surface-card focus:ring-2 focus:ring-border-focus/20 outline-none" maxlength="4" placeholder="XXXX" required="" type="tel">
+<span class="text-outline">-</span>
+<input class="w-full h-12 text-center rounded-xl border border-border-default bg-surface-subtle text-on-surface text-body-md font-body-md focus:border-border-focus focus:bg-surface-card focus:ring-2 focus:ring-border-focus/20 outline-none" maxlength="4" placeholder="XXXX" required="" type="tel">
+</div>
+</div>
+<!-- 연령대 선택 칩 (4열 그리드 모바일 최적화) -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="block text-label-md font-label-md text-on-surface font-bold">
+              나이 <span class="text-status-urgency">*</span>
+</label>
+<span class="text-caption-legal font-caption-legal text-status-urgency font-bold">만 25세~63세 신청 가능</span>
+</div>
+<div class="grid grid-cols-4 gap-1.5" id="age-selector">
+<button class="age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container" onclick="selectAge(this)" type="button">25~30세</button>
+<button class="age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container" onclick="selectAge(this)" type="button">31~35세</button>
+<button class="age-chip h-11 rounded-lg border-2 border-primary-container bg-surface-container text-primary text-label-sm font-label-sm font-bold active:scale-95 transition-all" onclick="selectAge(this)" type="button">36~40세</button>
+<button class="age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container" onclick="selectAge(this)" type="button">41~45세</button>
+<button class="age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container" onclick="selectAge(this)" type="button">46~50세</button>
+<button class="age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container" onclick="selectAge(this)" type="button">51~55세</button>
+<button class="age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container" onclick="selectAge(this)" type="button">56~60세</button>
+<button class="age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container" onclick="selectAge(this)" type="button">61~63세</button>
+</div>
+</div>
+<!-- 희망가전 1 선택 -->
+<div>
+<label class="block text-label-md font-label-md text-on-surface font-bold mb-1.5" for="appliance-1">
+            희망가전 1 선택 (1인 최대 2개 지원) <span class="text-status-urgency">*</span>
+</label>
+<select class="w-full h-12 px-3.5 rounded-xl border border-border-default bg-surface-subtle text-on-surface text-body-md font-body-md focus:border-border-focus focus:bg-surface-card focus:ring-2 focus:ring-border-focus/20 outline-none transition-all" id="appliance-1" required="">
+<option value="">- 희망가전 1 선택 -</option>
+<option selected="" value="samsung-85tv">삼성 85인치 대형 스마트 TV (100% 무상)</option>
+<option value="lg-86tv">LG 86인치 대형 스마트 TV (100% 무상)</option>
+<option value="samsung-75tv">삼성 75인치 대형 스마트 TV</option>
+<option value="fridge-bespoke">최신 양문형 4도어 냉장고</option>
+<option value="kimchi-fridge">최신 김치냉장고 스탠드형</option>
+<option value="wash-tower">세탁기·건조기 원바디 타워</option>
+<option value="air-conditioner">스탠드 에어컨 2in1</option>
+<option value="massage-chair">코지마 최고급 안마의자</option>
+<option value="laptop">최신 프리미엄 노트북</option>
+<option value="etc">기타 (상담 시 선택)</option>
+</select>
+</div>
+<!-- 희망가전 2 선택 (중복 지원 가능) -->
+<div>
+<div class="flex justify-between items-center mb-1.5">
+<label class="block text-label-md font-label-md text-on-surface font-bold" for="appliance-2">
+              희망가전 2 선택 (추가 1개 더 선택)
+            </label>
+<span class="text-caption-legal font-caption-legal text-secondary font-bold">1인 최대 2개 가능</span>
+</div>
+<select class="w-full h-12 px-3.5 rounded-xl border border-border-default bg-surface-subtle text-on-surface text-body-md font-body-md focus:border-border-focus focus:bg-surface-card focus:ring-2 focus:ring-border-focus/20 outline-none transition-all" id="appliance-2">
+<option value="">- 희망가전 2 선택 (선택사항) -</option>
+<option selected="" value="wash-tower">세탁기·건조기 원바디 타워 (100% 무상)</option>
+<option value="samsung-85tv">삼성 85인치 대형 스마트 TV</option>
+<option value="lg-86tv">LG 86인치 대형 스마트 TV</option>
+<option value="samsung-75tv">삼성 75인치 대형 스마트 TV</option>
+<option value="fridge-bespoke">최신 양문형 4도어 냉장고</option>
+<option value="kimchi-fridge">최신 김치냉장고 스탠드형</option>
+<option value="air-conditioner">스탠드 에어컨 2in1</option>
+<option value="massage-chair">코지마 최고급 안마의자</option>
+<option value="laptop">최신 프리미엄 노트북</option>
+<option value="none">선택 안 함 (1개만 신청)</option>
+</select>
+</div>
+<!-- 개인정보 수집 이용 동의 & 모달 열기 -->
+<div class="pt-2">
+<div class="flex items-center justify-between p-3 rounded-xl bg-surface-subtle border border-border-default">
+<label class="flex items-center gap-2 cursor-pointer select-none">
+<input checked="" class="w-5 h-5 rounded border-border-default text-primary-container focus:ring-primary-container" required="" type="checkbox">
+<span class="text-label-sm font-label-sm font-bold text-on-surface">개인정보 수집 및 이용 동의 <span class="text-status-urgency">(필수)</span></span>
+</label>
+<button class="text-caption-legal font-caption-legal text-primary underline active:opacity-75" onclick="document.getElementById('privacy-modal').classList.toggle('hidden')" type="button">
+              [전문보기]
+            </button>
+</div>
+<!-- 접이식 약관 박스 (Default Hidden / Toggleable) -->
+<div class="hidden mt-2 p-3 bg-surface-container-low rounded-xl border border-border-default text-caption-legal font-caption-legal text-on-surface-variant max-h-36 overflow-y-auto leading-relaxed" id="privacy-modal">
+<p class="font-bold text-on-surface mb-1">개인정보 수집·이용 및 위탁동의서</p>
+            주식회사 애드파이는 상품 소개 및 계약 상담, 체결을 위해 아래와 같이 개인정보를 수집·이용합니다.<br>
+            1. 수집/이용자: 주식회사 애드파이<br>
+            2. 수집 항목: 성명, 연락처(휴대전화번호), 연령대, 관심 가전<br>
+            3. 이용 목적: 상품 소개, 계약상담 및 자격심사, 사은품 배송 안내<br>
+            4. 보유 및 이용기간: 수집 동의일로부터 6개월 또는 목적 달성 시 파기<br>
+            * 고객님은 동의를 거부하실 권리가 있으나, 거부 시 상품 가입 및 가전 전액 지원 혜택이 제한될 수 있습니다.
+          </div>
+</div>
+<!-- 풀위드 대형 메인 CTA 버튼 -->
+<div class="pt-3">
+<button class="w-full h-14 bg-gradient-to-r from-secondary-container via-primary-container to-primary text-on-primary rounded-xl text-headline-sm font-headline-sm font-bold shadow-lg shadow-primary-container/25 flex items-center justify-center gap-2 active:scale-[0.98] transition-transform" type="submit">
+<span class="">지금 가전 100% 무료지원 신청하기</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+<p class="text-caption-legal font-caption-legal text-center text-outline mt-2">
+            🔒 SSL 256bit 암호화로 고객님의 개인정보를 안전하게 보호합니다.
+          </p>
+</div>
+</form>
+</section>
+</main>
+<!-- SHARED COMPONENT: Footer (Aligned with JSON and Brand requirements) -->
+<footer class="w-full max-w-xl mx-auto px-4 py-8 flex flex-col items-center justify-center gap-4 text-center mb-16 bg-surface-subtle dark:bg-inverse-surface border-t-0">
+<div class="text-headline-sm font-headline-sm text-on-surface dark:text-inverse-on-surface font-bold">
+      더리본
+    </div>
+<div class="flex flex-wrap justify-center gap-x-4 gap-y-1 text-caption-legal font-caption-legal text-outline dark:text-outline-variant">
+<a class="hover:text-primary dark:hover:text-inverse-primary underline transition-colors duration-150" href="#application-form">이용약관</a>
+<span class="">|</span>
+<a class="hover:text-primary dark:hover:text-inverse-primary underline transition-colors duration-150" href="#application-form">개인정보처리방침</a>
+<span class="">|</span>
+<a class="hover:text-primary dark:hover:text-inverse-primary underline transition-colors duration-150" href="#application-form">책임한계 및 법적고지</a>
+<span class="">|</span>
+<a class="hover:text-primary dark:hover:text-inverse-primary underline transition-colors duration-150" href="#application-form">고객센터</a>
+</div>
+<div class="text-caption-legal font-caption-legal text-outline dark:text-outline-variant space-y-1">
+
+
+
+</div>
+
+</footer>
+<!-- SHARED COMPONENT: BottomNavBar (Fixed Navigation Shell for Mobile Viewport) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 py-2 max-w-xl mx-auto bg-surface dark:bg-inverse-surface shadow-lg dark:shadow-none border-t-0">
+<!-- 지원혜택 (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]">redeem</span>
+<span class="text-label-sm font-label-sm mt-0.5">지원혜택</span>
+</a>
+<!-- 인기가전 (Inactive) -->
+<a class="flex flex-col items-center justify-center text-on-surface-variant dark:text-outline-variant px-3 py-1.5 hover:bg-surface-container-high dark:hover:bg-surface-container-highest transition-colors duration-150 active:scale-95" href="#">
+<span class="material-symbols-outlined text-[22px]">kitchen</span>
+<span class="text-label-sm font-label-sm mt-0.5">인기가전</span>
+</a>
+<!-- 신청하기 (Active: Target intent of this direct landing page) -->
+<a class="flex flex-col items-center justify-center bg-primary-container dark:bg-secondary text-on-primary-container dark:text-on-secondary rounded-xl px-4 py-1.5 active:scale-95 transition-transform duration-150 shadow-sm" href="#application-form">
+<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: &quot;FILL&quot; 1;">app_registration</span>
+<span class="text-label-sm font-label-sm mt-0.5 font-bold">신청하기</span>
+</a>
+</nav>
+<!-- Inline Script for Interactive Countdown and Age Selector -->
+<script>
+    // Age selector chip behavior
+    function selectAge(btn) {
+      document.querySelectorAll('.age-chip').forEach(el => {
+        el.className = "age-chip h-11 rounded-lg border border-border-default bg-surface-card text-on-surface text-label-sm font-label-sm font-semibold active:scale-95 transition-all hover:border-primary-container";
+      });
+      btn.className = "age-chip h-11 rounded-lg border-2 border-primary-container bg-surface-container text-primary text-label-sm font-label-sm font-bold active:scale-95 transition-all";
+    }
+
+    // Interactive Real-Time Countdown Timer (21:55:25 Countdown)
+    let totalSeconds = (21 * 3600) + (55 * 60) + 25;
+    const timerElement = document.getElementById('countdown-timer');
+
+    setInterval(() => {
+      if (totalSeconds > 0) {
+        totalSeconds--;
+        const hours = Math.floor(totalSeconds / 3600);
+        const minutes = Math.floor((totalSeconds % 3600) / 60);
+        const seconds = totalSeconds % 60;
+        
+        timerElement.textContent = 
+          String(hours).padStart(2, '0') + ':' + 
+          String(minutes).padStart(2, '0') + ':' + 
+          String(seconds).padStart(2, '0');
+      }
+    }, 1000);
+  </script>
+
+
+</body></html>

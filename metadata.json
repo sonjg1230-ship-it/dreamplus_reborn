@@ -1,0 +1,6 @@
+{
+  "name": "더리본 최신가전 100% 전액지원 프로모션",
+  "description": "삼성·LG 공식인증 최신 프리미엄 가전 100% 전액지원 및 만기 전액 환급 스페셜 멤버십 신청 웹앱",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
