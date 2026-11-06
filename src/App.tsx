@@ -18,6 +18,7 @@ import { SuccessModal } from './components/SuccessModal';
 import { PrivacyModal } from './components/PrivacyModal';
 import { ApplicantDetailModal } from './components/ApplicantDetailModal';
 import { LiveNotificationToast } from './components/LiveNotificationToast';
+import { MobileFloatingApplyButton } from './components/MobileFloatingApplyButton';
 import { INITIAL_APPLICANTS, APPLIANCES } from './data/mockData';
 import { ApplicantRecord, ApplicationFormData } from './types';
 
@@ -302,6 +303,9 @@ export default function App() {
         onChangeTab={setCurrentTab}
         onScrollToForm={scrollToForm}
       />
+
+      {/* 4-1. MOBILE-ONLY FLOATING ACTION BUTTON (QUICK CONVERSION ACCESS) */}
+      <MobileFloatingApplyButton onScrollToForm={scrollToForm} />
 
       {/* 5. FLOATING REAL-TIME APPLICATION NOTIFICATION TOAST */}
       <LiveNotificationToast
