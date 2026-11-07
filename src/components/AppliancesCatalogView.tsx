@@ -131,10 +131,19 @@ export const AppliancesCatalogView: React.FC<AppliancesCatalogViewProps> = ({
               </div>
 
               <div className="flex gap-3 my-3">
-                <div className="w-20 h-20 rounded-xl bg-[#F8FAFC] border border-slate-100 flex items-center justify-center shrink-0">
-                  <span className="material-symbols-outlined text-[38px] text-[#00288e]">
-                    {item.iconName}
-                  </span>
+                <div className="w-20 h-20 rounded-xl bg-[#F8FAFC] border border-slate-200/80 flex items-center justify-center shrink-0 overflow-hidden relative shadow-inner">
+                  {item.imageUrl ? (
+                    <img
+                      src={item.imageUrl}
+                      alt={item.name}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="material-symbols-outlined text-[38px] text-[#00288e]">
+                      {item.iconName}
+                    </span>
+                  )}
                 </div>
 
                 <div className="flex-1 min-w-0">

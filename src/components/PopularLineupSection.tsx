@@ -18,6 +18,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
       icon: 'tv',
       title: '대형 TV & 사운드바',
       subtitle: '75인치 / 85인치 86인치 UHD',
+      image: '/images/tv.jpg',
     },
     {
       id: 'fridge-bespoke',
@@ -27,6 +28,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
       icon: 'kitchen',
       title: '양문형 / 김치냉장고',
       subtitle: '대용량 4도어 최신 모델',
+      image: '/images/fridge.jpg',
     },
     {
       id: 'wash-tower',
@@ -36,6 +38,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
       icon: 'local_laundry_service',
       title: '세탁기·건조기 원바디',
       subtitle: '2in1 타워형 스마트 케어',
+      image: '/images/washtower.jpg',
     },
     {
       id: 'air-conditioner',
@@ -45,6 +48,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
       icon: 'mode_fan',
       title: '시스템·스탠드 에어컨',
       subtitle: '2in1 멀티형 쾌적 냉방',
+      image: '/images/airconditioner.jpg',
     },
     {
       id: 'massage-chair',
@@ -54,6 +58,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
       icon: 'chair',
       title: '헬스케어 안마의자',
       subtitle: '전신 체형 맞춤 스트레칭',
+      image: '/images/massagechair.jpg',
     },
     {
       id: 'laptop',
@@ -63,6 +68,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
       icon: 'devices_other',
       title: '노트북 · 스타일러 등',
       subtitle: '골프클럽, 청소기 외 다수',
+      image: '/images/laptop.jpg',
     },
   ];
 
@@ -93,20 +99,39 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
           >
             <div>
               <div className="flex justify-between items-center mb-2">
-                <span className={`${item.badgeClass} text-[10px] font-bold px-1.5 py-0.5 rounded`}>
+                <span className={`${item.badgeClass} text-[10px] font-bold px-1.5 py-0.5 rounded shadow-xs`}>
                   {item.badge}
                 </span>
                 <span className="text-[10px] text-slate-500">{item.brand}</span>
               </div>
-              <div className="w-full h-24 bg-[#F8FAFC] rounded-lg flex items-center justify-center mb-2 border border-[#E2E8F0]/50 group-hover:bg-[#eaedff]/30 transition-colors">
-                <span className="material-symbols-outlined text-[44px] text-[#00288e] group-hover:scale-110 transition-transform">
-                  {item.icon}
-                </span>
+
+              {/* Real Appliance Image Container */}
+              <div className="relative w-full h-32 bg-white rounded-xl overflow-hidden mb-2.5 border border-slate-200 group-hover:border-[#1e40af]/40 transition-all shadow-xs flex items-center justify-center p-1.5">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 block"
+                  loading="lazy"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.style.display = 'none';
+                    if (target.nextElementSibling) {
+                      (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                    }
+                  }}
+                />
+                {/* Fallback Icon Container if offline/error */}
+                <div className="hidden absolute inset-0 items-center justify-center bg-[#F8FAFC]">
+                  <span className="material-symbols-outlined text-[40px] text-[#00288e]">
+                    {item.icon}
+                  </span>
+                </div>
               </div>
-              <h3 className="text-sm font-bold text-[#131b2e] leading-tight group-hover:text-[#00288e]">
+
+              <h3 className="text-sm font-bold text-[#131b2e] leading-tight group-hover:text-[#00288e] transition-colors">
                 {item.title}
               </h3>
-              <p className="text-[11px] text-slate-500 mt-0.5">{item.subtitle}</p>
+              <p className="text-[11px] text-slate-500 mt-0.5 truncate">{item.subtitle}</p>
             </div>
 
             <div className="mt-2.5 pt-2 border-t border-[#E2E8F0] flex items-center justify-between">

@@ -4,7 +4,7 @@ export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqppjlkp';
 
 export const ASSETS = {
   logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAlJ4GVloDaYpK2zGpOUg9M5rzJvTFyWQfMtxapfQQ0uvUx00pY4tZ5P4lChIL_HpE4oOFotzNUFobtSesCAShSRYy6qfSdbLRKZSU0e6iB7c3YZHSv-t1e3Ade9zRB4pV86oFyV_OD0srsb1iKyJa0O4sVxNw0rReBLmDRyeVoD-knNcWondFxfqziypYIILlfHJ5ANIWrvlMyLfFL_HshNu1W1o9wXeuxb2BtLPTmeEfamtRqyi31DA',
-  showcaseHero: 'https://lh3.googleusercontent.com/aida/AEtjO1UbTGyUSMZgXGKiA1AiQoxuzGe6Xwu1NTEK3XKd0sUJnahkuIpx2pljEMqJSnRVZK4269G8aTdniLCD8fNdqdq2RTxObQ-JdPmBbfb-QpK86DhIR8nBWOply_WSaU9ET2cnPL24MR0r0DEenEifcGFXPKHboAelZ7Ec5zqtmGLSvmyK-SglZhWjSjQ7o3RM9PmfAcmFxxPGBx04kXng-0KDMbE8sFh9WpsFLw7Crm8Sgw',
+  showcaseHero: '/images/showcase_hero.jpg',
 };
 
 export const APPLIANCES: ApplianceItem[] = [
@@ -18,6 +18,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '인기 1위',
     tagColor: 'bg-status-urgency text-on-primary',
     iconName: 'tv',
+    imageUrl: '/images/tv.jpg',
     features: ['Crystal Processor 4K 탑재', '대화면 몰입감 사운드바 호환', '스마트싱스(SmartThings) 지원', '기사 무료 방문 벽걸이/스탠드 설치'],
   },
   {
@@ -30,6 +31,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '대화면 추천',
     tagColor: 'bg-primary-container text-on-primary',
     iconName: 'tv',
+    imageUrl: '/images/tv.jpg',
     features: ['α8 AI 4K 프로세서', '돌비 비전 & 돌비 애트모스', '인공지능 공간인식 사운드', 'LG 본사 물류 직배송'],
   },
   {
@@ -42,6 +44,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '가성비 최고',
     tagColor: 'bg-secondary text-on-secondary',
     iconName: 'tv',
+    imageUrl: '/images/tv.jpg',
     features: ['컬러볼륨 100% 퀀텀닷 디스플레이', '에어슬림 디자인', '무타공/벽걸이 무상지원', '넷플릭스·유튜브 다이렉트'],
   },
   {
@@ -54,6 +57,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '베스트',
     tagColor: 'bg-secondary text-on-secondary',
     iconName: 'kitchen',
+    imageUrl: '/images/fridge.jpg',
     features: ['맞춤보관실 7단계 변온', '미세정온 기술로 신선도 극대화', '에너지소비효율 1등급', '맞춤형 패널 컬러 선택 가능'],
   },
   {
@@ -66,6 +70,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '주부 필수',
     tagColor: 'bg-accent-coral text-on-primary',
     iconName: 'kitchen',
+    imageUrl: '/images/fridge.jpg',
     features: ['뉴 유산균김치+ 57배 증식 모드', '사계절 냉장·냉동 전환 룸', '쿨링팬 3단계 정온 냉각', 'LG ThinQ 앱 스마트 제어'],
   },
   {
@@ -78,6 +83,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '주부추천 1위',
     tagColor: 'bg-primary-container text-on-primary',
     iconName: 'local_laundry_service',
+    imageUrl: '/images/washtower.jpg',
     features: ['중앙 제어 원바디 퀵 컨트롤', '인공지능 DD 모터 무게·의류 감지', '트루스팀 99.9% 살균 케어', '좁은 다용도실 완벽 수납'],
   },
   {
@@ -90,6 +96,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '신제품',
     tagColor: 'bg-accent-emerald text-on-primary',
     iconName: 'local_laundry_service',
+    imageUrl: '/images/washtower.jpg',
     features: ['세탁부터 건조까지 원스톱 코스', '히트펌프 60℃ 저온제습 건조', 'AI 맞춤 세탁건조 알고리즘', '자동 세제함 투입 시스템'],
   },
   {
@@ -102,6 +109,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '시즌특가',
     tagColor: 'bg-accent-emerald text-on-primary',
     iconName: 'mode_fan',
+    imageUrl: '/images/airconditioner.jpg',
     features: ['직바람 없는 쾌적 와이드 무풍냉방', 'PM1.0 공기청정 안심 케어', 'AI 쾌적 모드로 자동 절전', '전문 배관 무료 기본 설치'],
   },
   {
@@ -114,6 +122,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '효도선물',
     tagColor: 'bg-amber-600 text-on-primary',
     iconName: 'chair',
+    imageUrl: '/images/massagechair.jpg',
     features: ['체형 자동 측정 스마트 센서', '전신 에어포켓 48개 강력 가압', '종아리·발바닥 회전 롤러 지압', '블루투스 고음질 스피커'],
   },
   {
@@ -126,6 +135,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '인기 디지털',
     tagColor: 'bg-outline text-on-primary',
     iconName: 'laptop_mac',
+    imageUrl: '/images/laptop.jpg',
     features: ['초경량 1,190g 독보적 휴대성', '초고화질 안티글레어 IPS 패널', '하루 종일 가는 대용량 배터리', '정품 Windows 11 탑재'],
   },
   {
@@ -138,6 +148,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '위생 케어',
     tagColor: 'bg-secondary text-on-secondary',
     iconName: 'dry_cleaning',
+    imageUrl: '/images/washtower.jpg',
     features: ['미세먼지 99% 제거 무빙행어', '트루스팀 바이러스·유해세균 살균', '바지 칼주름 관리기 내장', '저소음 쾌속 케어 코스'],
   },
   {
@@ -150,6 +161,7 @@ export const APPLIANCES: ApplianceItem[] = [
     tag: '실속 가전',
     tagColor: 'bg-slate-500 text-white',
     iconName: 'devices_other',
+    imageUrl: '/images/laptop.jpg',
     features: ['자동 먼지통 비움 청정스테이션', '미세먼지 99.999% 배출 차단', '물걸레 브러시 포함 풀세트', '2년 무상 A/S 보증'],
   },
 ];

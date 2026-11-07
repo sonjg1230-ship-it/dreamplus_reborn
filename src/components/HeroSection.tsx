@@ -6,6 +6,8 @@ interface HeroSectionProps {
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({ onApplyClick }) => {
+  const [heroImg, setHeroImg] = React.useState(ASSETS.showcaseHero);
+
   return (
     <section className="mt-2 mb-8">
       {/* 삼성/LG 파트너십 뱃지 */}
@@ -74,14 +76,17 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onApplyClick }) => {
         role="button"
         tabIndex={0}
       >
-        <div className="relative h-60 w-full overflow-hidden">
+        <div className="relative min-h-[220px] h-56 sm:h-64 w-full overflow-hidden bg-slate-900">
           <img
             alt="LG Objet Collection 및 Samsung Bespoke 프리미엄 인테리어 주방 가전"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-            src={ASSETS.showcaseHero}
-            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 block"
+            src={heroImg}
+            loading="eager"
+            onError={() => {
+              setHeroImg('/images/showcase_hero.jpg');
+            }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/85 via-black/20 to-black/20"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A]/90 via-black/30 to-black/20 pointer-events-none"></div>
 
           <div className="absolute top-3 left-3 bg-[#1e40af] text-white text-xs font-semibold px-2.5 py-1 rounded-md shadow flex items-center gap-1">
             <span className="material-symbols-outlined text-[14px]">star</span>
