@@ -16,7 +16,7 @@ export const Header: React.FC<HeaderProps> = ({
   onSelectTab,
 }) => {
   return (
-    <header className="fixed top-10 left-0 right-0 z-40 bg-[#faf8ff] shadow-sm flex justify-between items-center px-4 max-w-xl mx-auto h-14 border-b border-slate-200/70">
+    <header className="fixed top-10 left-0 right-0 z-40 bg-[#faf8ff] shadow-sm flex justify-between items-center px-4 max-w-xl lg:max-w-4xl xl:max-w-5xl mx-auto h-14 border-b border-slate-200/70">
       <div className="flex items-center gap-2">
         {/* 더리본 로고 이미지 & 홈 이동 */}
         <button
@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
         </button>
 
         <span className="bg-[#eaedff] text-[#00288e] text-xs font-bold px-2 py-0.5 rounded-full border border-[#dae2fd]">
-          100% 전액지원
+          가전지원
         </span>
       </div>
 

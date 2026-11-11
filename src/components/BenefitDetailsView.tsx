@@ -16,7 +16,7 @@ export const BenefitDetailsView: React.FC<BenefitDetailsViewProps> = ({ onGoToAp
           <span>더리본 리빙플러스 공식 6대 멤버십 &amp; 188회 만기환급 안내</span>
         </div>
         <h1 className="text-2xl font-extrabold text-[#131b2e] tracking-tight">
-          100% 전액지원 &amp; 188회 만기 전액환급
+          가전지원 &amp; 188회 만기 전액환급
         </h1>
         <p className="text-xs text-slate-600 mt-1">
           원하는 가전 무료로 쓰고, 납입하신 총액은 188회 만기 시 원금 100% 그대로 돌려받는 혁신적 멤버십!
@@ -140,10 +140,10 @@ export const BenefitDetailsView: React.FC<BenefitDetailsViewProps> = ({ onGoToAp
             <span className="w-6 h-6 rounded-lg bg-[#059669] text-white text-xs font-bold flex items-center justify-center">
               3
             </span>
-            <h3 className="text-sm font-bold text-[#131b2e]">188회 만기 시 납입금 100% 안전 전액 환급</h3>
+            <h3 className="text-sm font-bold text-[#131b2e]">만기 시 익월 납입금 100% 전액 환급</h3>
           </div>
           <p className="text-xs text-slate-600 leading-relaxed pl-8">
-            약정 만기 시 고객님이 납입하신 금액 전액(전자제품 할부금 포함)을 원금 그대로 환급해 드립니다. 지급받으신 가전은
+            약정 만기 시 익월에 고객님이 납입하신 금액 전액(전자제품 할부금 포함)을 원금 그대로 환급해 드립니다. 지급받으신 가전은
             반납 의무 없이 평생 고객님 자산으로 유지됩니다.
           </p>
         </div>

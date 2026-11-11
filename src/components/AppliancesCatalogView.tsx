@@ -13,13 +13,16 @@ export const AppliancesCatalogView: React.FC<AppliancesCatalogViewProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
 
   const categories = [
-    { id: 'all', label: '전체 (80여종)' },
+    { id: 'all', label: '전체 (200여종)' },
     { id: 'tv', label: '대형 TV' },
     { id: 'fridge', label: '냉장고/김치' },
     { id: 'washer', label: '세탁·건조기' },
-    { id: 'ac', label: '에어컨' },
-    { id: 'healthcare', label: '안마의자' },
-    { id: 'digital', label: '디지털/기타' },
+    { id: 'ac', label: '에어컨/청정' },
+    { id: 'healthcare', label: '안마의자/세라젬' },
+    { id: 'beauty', label: '홈세라/뷰티' },
+    { id: 'kitchen', label: '주방가전/쿠쿠' },
+    { id: 'living', label: '생활/로봇청소기' },
+    { id: 'digital', label: '디지털/노트북' },
   ];
 
   const filteredAppliances = APPLIANCES.filter((item) => {

@@ -234,7 +234,7 @@ export default function App() {
 
       {/* 3. SCREEN CONTENT ROUTER */}
       {currentTab === 'home' && (
-        <main className="pt-24 pb-28 max-w-xl w-full mx-auto px-4 bg-[#faf8ff] min-h-screen">
+        <main className="pt-24 pb-28 max-w-xl lg:max-w-4xl xl:max-w-5xl w-full mx-auto px-4 bg-[#faf8ff] min-h-screen">
           {/* HERO SECTION */}
           <HeroSection onApplyClick={scrollToForm} />
 
@@ -249,9 +249,12 @@ export default function App() {
             <SavingsBenefitCalculator onApplyWithPackage={handleApplyWithPackage} />
           </div>
 
-          {/* 인기 지원가전 라인업 6종 카드 */}
+          {/* 인기 지원가전 공식 라인업 (스크린샷 스타일 컴포넌트) */}
           <PopularLineupSection
             onSelectAppliance={handleSelectApplianceFromCard}
+            onSelectAppliancePair={handleApplyWithPackage}
+            selectedAppliance1={selectedAppliance1}
+            selectedAppliance2={selectedAppliance2}
             onViewAllAppliances={() => setCurrentTab('appliances')}
           />
 

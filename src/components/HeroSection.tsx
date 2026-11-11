@@ -47,7 +47,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onApplyClick }) => {
             <span className="material-symbols-outlined text-[20px]">person_check</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-[#131b2e]">만 25세 ~ 63세 대상 (신용 결격사유 없는 분)</span>
+            <span className="text-sm font-bold text-[#131b2e]">만 25세 ~ 70세 대상 (신용 결격사유 없는 분)</span>
             <span className="text-[11px] text-[#757684]">
               대한민국 성인 남녀 누구나 조건 충족 시 100% 대상자 선정
             </span>

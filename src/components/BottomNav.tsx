@@ -12,7 +12,7 @@ export const BottomNav: React.FC<BottomNavProps> = ({
   onScrollToForm,
 }) => {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 w-full z-50 flex justify-around items-center px-3 py-2 max-w-xl mx-auto bg-white/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.08)] border-t border-slate-200">
+    <nav className="fixed bottom-0 left-0 right-0 w-full z-50 flex justify-around items-center px-3 py-2 max-w-xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-white/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.08)] border-t border-slate-200">
       {/* 지원혜택 */}
       <button
         onClick={() => {

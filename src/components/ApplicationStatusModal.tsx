@@ -159,7 +159,7 @@ export const ApplicationStatusModal: React.FC<ApplicationStatusModalProps> = ({
                 <div className="p-2.5 bg-white rounded-lg border border-slate-200 text-[11px] text-slate-600">
                   <span className="font-bold text-[#00288e]">📞 전담 상담원 해피콜 안내:</span>
                   <p className="mt-0.5">
-                    고객님의 신청서가 정상 배정되었습니다. 지정하신 희망 시간대에 1588-4640 번호로
+                    고객님의 신청서가 정상 배정되었습니다. 지정하신 희망 시간대에 1644-3651 번호로
                     친절히 안내 전화를 드리겠습니다.
                   </p>
                 </div>

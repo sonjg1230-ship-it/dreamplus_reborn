@@ -88,7 +88,7 @@ export const ApplicantDetailModal: React.FC<ApplicantDetailModalProps> = ({
             info
           </span>
           <span>
-            상담원 배정 후 순차적으로 1588-4640 번호로 지원 자격 확인 및 가전 배송 일정을 안내해
+            상담원 배정 후 순차적으로 1644-3651 번호로 지원 자격 확인 및 가전 배송 일정을 안내해
             드립니다.
           </span>
         </div>

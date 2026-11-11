@@ -93,10 +93,10 @@ export const SpecialBenefitsSection: React.FC<SpecialBenefitsSectionProps> = ({
                 </span>
               </div>
               <h3 className="text-base font-bold text-[#131b2e] mt-0.5">
-                188회 만기 시 납입금 100% 전액 환급
+                만기 시 익월 납입금 100% 전액 환급
               </h3>
               <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                지원받은 가전 반납 의무 일체 없음! 188회 만기 시 전자제품 할부금을 포함하여 납입하신 금액 100% 전액을 그대로 안전하게
+                지원받은 가전 반납 의무 일체 없음! 만기 시 익월에 전자제품 할부금을 포함하여 납입하신 금액 100% 전액을 그대로 안전하게
                 환급해 드립니다.
               </p>
             </div>
@@ -108,7 +108,7 @@ export const SpecialBenefitsSection: React.FC<SpecialBenefitsSectionProps> = ({
       <div className="mt-4 p-4 rounded-xl bg-gradient-to-r from-[#00288e] to-[#1e40af] text-white flex items-center justify-between shadow-md">
         <div>
           <p className="text-xs text-slate-200">부담 없는 0원 가전 솔루션</p>
-          <h4 className="text-base font-bold mt-0.5">100% 전액지원 + 100% 전액환급!</h4>
+          <h4 className="text-base font-bold mt-0.5">가전지원 + 100% 전액환급!</h4>
         </div>
         <button
           onClick={onCheckEligibility}

@@ -55,7 +55,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
     '46~50세',
     '51~55세',
     '56~60세',
-    '61~63세',
+    '61~70세',
   ];
 
   const handleMidChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,7 +114,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
 
     // Formspree payload with clear readable fields
     const formspreePayload = {
-      _subject: `[더리본 가전 100% 전액지원] 신규신청: ${name.trim()} (${fullPhone})`,
+      _subject: `[더리본 가전지원] 신규신청: ${name.trim()} (${fullPhone})`,
       name: name.trim(),
       phone: fullPhone,
       ageGroup: selectedAge,
@@ -174,7 +174,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
           최신가전 100% 지원 신청서
         </h2>
         <p className="text-xs text-[#DC2626] font-bold mt-1">
-          * 미성년자, 신용불량자는 신청이 불가능합니다 (만 25세~63세 한정)
+          * 미성년자, 신용불량자는 신청이 불가능합니다 (만 25세~70세 한정)
         </p>
       </div>
 
@@ -255,7 +255,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
             <label className="block text-sm text-[#131b2e] font-bold">
               나이 <span className="text-[#DC2626]">*</span>
             </label>
-            <span className="text-[11px] text-[#DC2626] font-bold">만 25세~63세 신청 가능</span>
+            <span className="text-[11px] text-[#DC2626] font-bold">만 25세~70세 신청 가능</span>
           </div>
           <div className="grid grid-cols-4 gap-1.5" id="age-selector">
             {ageOptions.map((age) => {
@@ -296,7 +296,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
                 {item.name} ({item.tag})
               </option>
             ))}
-            <option value="etc">기타 가전 (전문상담 시 80여종 중 선택)</option>
+            <option value="etc">기타 가전 (전문상담 시 200여종 중 선택)</option>
           </select>
         </div>
 

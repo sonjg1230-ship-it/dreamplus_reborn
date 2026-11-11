@@ -1,7 +1,7 @@
 export interface ApplianceItem {
   id: string;
   name: string;
-  category: 'tv' | 'fridge' | 'washer' | 'ac' | 'healthcare' | 'digital';
+  category: 'tv' | 'fridge' | 'washer' | 'ac' | 'healthcare' | 'digital' | 'kitchen' | 'beauty' | 'living';
   brand: string;
   spec: string;
   marketPrice: string;

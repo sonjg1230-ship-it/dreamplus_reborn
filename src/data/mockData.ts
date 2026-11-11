@@ -1,4 +1,5 @@
 import { ApplianceItem, ApplicantRecord, AppliancePackage, MembershipPlan } from '../types';
+import { REBORN_LINEUP_DATA } from './rebornLineupData';
 
 export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqppjlkp';
 
@@ -7,7 +8,7 @@ export const ASSETS = {
   showcaseHero: '/images/showcase_hero.jpg',
 };
 
-export const APPLIANCES: ApplianceItem[] = [
+const BASE_APPLIANCES: ApplianceItem[] = [
   {
     id: 'samsung-85tv',
     name: '삼성 85인치 Crystal UHD 4K 스마트 TV',
@@ -143,7 +144,7 @@ export const APPLIANCES: ApplianceItem[] = [
     name: 'LG 스타일러 오브제컬렉션 의류관리기 (5벌형)',
     category: 'washer',
     brand: 'LG 오브제컬렉션 (Objet)',
-    spec: '최대 5벌 + 바지 1벌 / 무빙행어 플러스 / 듀얼스팀',
+    spec: '최대 5벌 + 바지 1벌 / 무빙행어 플러스 / 듀얼스팀 (SC5GMR80A)',
     marketPrice: '1,890,000원',
     tag: '위생 케어',
     tagColor: 'bg-secondary text-on-secondary',
@@ -164,7 +165,311 @@ export const APPLIANCES: ApplianceItem[] = [
     imageUrl: '/images/laptop.jpg',
     features: ['자동 먼지통 비움 청정스테이션', '미세먼지 99.999% 배출 차단', '물걸레 브러시 포함 풀세트', '2년 무상 A/S 보증'],
   },
+  // Additional Official LG Models
+  {
+    id: 'lg-85qned',
+    name: 'LG 85인치 QNED AI TV (85QN1C70BK)',
+    category: 'tv',
+    brand: 'LG전자',
+    spec: '85형(214cm) / QNED AI / 퀀텀닷 나노셀 컬러',
+    marketPrice: '3,190,000원',
+    tag: 'LG 대표TV',
+    tagColor: 'bg-primary-container text-on-primary',
+    iconName: 'tv',
+    imageUrl: '/images/tv.jpg',
+    features: ['α8 AI 4K 프로세서 탑재', '미니LED 정밀 디밍', '돌비 비전 & 돌비 애트모스', '벽걸이/스탠드 본사 무상설치'],
+  },
+  {
+    id: 'lg-robot-vacuum',
+    name: 'LG HOM-BOT AI 오브제 로니 스팀 로봇청소기 (N95THO)',
+    category: 'digital',
+    brand: 'LG전자',
+    spec: '올인원 스팀 청정타워 / 자동 물걸레 세척 및 열풍건조',
+    marketPrice: '1,890,000원',
+    tag: '청소 해방',
+    tagColor: 'bg-emerald-600 text-white',
+    iconName: 'devices_other',
+    imageUrl: '/images/robot_vacuum.jpg',
+    features: ['100℃ 트루스팀 냄새·살균 99.9%', '라이다 AI 센서 사물 자동인식', '먼지 비움부터 걸레 건조까지 전자동', 'LG ThinQ 앱 스마트 원격제어'],
+  },
+  {
+    id: 'lg-whisen-ac',
+    name: 'LG 휘센 오브제컬렉션 AI 뷰II 2in1 에어컨 (FQ18GU1EK2)',
+    category: 'ac',
+    brand: 'LG전자',
+    spec: '스탠드 18평형 + 벽걸이 6평형 / AI 바람제어',
+    marketPrice: '2,650,000원',
+    tag: '에어컨 1위',
+    tagColor: 'bg-blue-600 text-white',
+    iconName: 'mode_fan',
+    imageUrl: '/images/airconditioner.jpg',
+    features: ['AI 스마트케어로 알아서 공간 냉방', '클린봇 열교환기 자동 살균', '에너지소비효율 1등급', '전문 배관 기본 무료설치'],
+  },
+  {
+    id: 'lg-gram-15',
+    name: 'LG 그램 AI 15인치 초경량 노트북 (15Z90U-G.ASFWK)',
+    category: 'digital',
+    brand: 'LG전자',
+    spec: '인텔 최신 Core 프로세서 / 15.6인치 안티글레어 / 초경량 1.2kg',
+    marketPrice: '2,190,000원',
+    tag: '초경량 IT',
+    tagColor: 'bg-slate-700 text-white',
+    iconName: 'laptop_mac',
+    imageUrl: '/images/laptop.jpg',
+    features: ['독보적 가벼움과 휴대성', '대용량 배터리 최대 20시간 지속', '초고화질 IPS 디스플레이', 'Windows 11 정품 기본 탑재'],
+  },
+  {
+    id: 'lg-dios-fridge',
+    name: 'LG 디오스 오브제컬렉션 노크온 4도어 냉장고 (M874GBB451)',
+    category: 'fridge',
+    brand: 'LG전자',
+    spec: '870L 대용량 / 노크온 미러글라스 / 24시간 자동정온',
+    marketPrice: '2,950,000원',
+    tag: '주방 프리미엄',
+    tagColor: 'bg-indigo-600 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/fridge.jpg',
+    features: ['노크 두 번으로 내부 확인 노크온', '도어쿨링+ 기술로 도어 앞까지 신선', 'UV 안심제균+ 청정탈취', '오브제 메탈 감성 디자인'],
+  },
+  {
+    id: 'lg-dishwasher',
+    name: 'LG 디오스 오브제컬렉션 14인용 식기세척기 (DUBJ4ES)',
+    category: 'kitchen',
+    brand: 'LG전자',
+    spec: '14인용 대용량 / 100℃ 트루스팀 / 고온열풍 건조',
+    marketPrice: '1,780,000원',
+    tag: '삼식이 필수',
+    tagColor: 'bg-teal-600 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/cuckoo.jpg',
+    features: ['트루스팀으로 유해세균·바이러스 99.999% 제거', '토네이도 세척날개 빈틈없는 세척', '자동 문열림 건조 시스템', '스마트폰 세척 코스 다운로드'],
+  },
+  // Additional Official Samsung Models
+  {
+    id: 'samsung-kimchi',
+    name: '삼성 비스포크 김치플러스 4도어 (RQ48A94W101)',
+    category: 'fridge',
+    brand: '삼성전자 (SAMSUNG)',
+    spec: '490L 스탠드형 / 메탈쿨링 / 맞춤보관 15단계',
+    marketPrice: '2,420,000원',
+    tag: '김치명가',
+    tagColor: 'bg-rose-600 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/fridge.jpg',
+    features: ['초미세 정온 유지 메탈쿨링 커튼', '사계절 냉장·냉동·와인 맞춤 변온', '안심 안티폴루션 탈취기', '깔끔한 플랫 도어 디자인'],
+  },
+  {
+    id: 'samsung-grande-ai',
+    name: '삼성 비스포크 그랑데 AI 25kg+20kg 원바디 패키지 (WF25CB8800KV)',
+    category: 'washer',
+    brand: '삼성전자 (SAMSUNG)',
+    spec: '세탁 25kg + 건조 20kg / 올인원 컨트롤',
+    marketPrice: '3,150,000원',
+    tag: '대용량 세탁',
+    tagColor: 'bg-blue-700 text-white',
+    iconName: 'local_laundry_service',
+    imageUrl: '/images/washtower.jpg',
+    features: ['AI 맞춤세탁·맞춤건조 무게감지', '오토 오픈 도어 쾌적 살균', '에너지 1등급 고효율 인버터', '직렬/병렬 설치 무상지원'],
+  },
+  {
+    id: 'samsung-galaxybook',
+    name: '삼성 갤럭시북4 Pro 16인치 터치스크린 (NT960XGK)',
+    category: 'digital',
+    brand: '삼성전자 (SAMSUNG)',
+    spec: 'Intel Core Ultra / Dynamic AMOLED 2X 터치 / 1.23kg',
+    marketPrice: '2,390,000원',
+    tag: '프리미엄 노트북',
+    tagColor: 'bg-cyan-700 text-white',
+    iconName: 'laptop_mac',
+    imageUrl: '/images/laptop.jpg',
+    features: ['선명한 3K AMOLED 고화질 터치패널', '갤럭시 에코시스템 원클릭 연동', '슬림 초경량 알루미늄 바디', '초고속 충전 지원'],
+  },
+  // Bodyfriend & Healthcare Models
+  {
+    id: 'bodyfriend-phantom',
+    name: '바디프랜드 팬텀 로보 4D 헬스케어 안마의자 (BFR-7100)',
+    category: 'healthcare',
+    brand: '바디프랜드 (BODYFRIEND)',
+    spec: '좌우 다리 독립 구동 로보 워킹 / 4D 심층 마사지 / 온열 테라피',
+    marketPrice: '3,850,000원',
+    tag: '최고급 헬스케어',
+    tagColor: 'bg-amber-600 text-white',
+    iconName: 'chair',
+    imageUrl: '/images/massagechair.jpg',
+    features: ['좌우 다리 독립 가동 장요근 스트레칭', '핑거롤러 손바닥·발바닥 지압', '브레인 마사지 힐링 사운드', '무중력 수면 릴렉스 모드'],
+  },
+  {
+    id: 'bodyfriend-eden',
+    name: '바디프랜드 에덴 체형인식 힐링 케어 안마의자 (BFR-M500)',
+    category: 'healthcare',
+    brand: '바디프랜드 (BODYFRIEND)',
+    spec: '스마트 체형 스캐닝 / 전신 에어 마사지 / 온열 롤러',
+    marketPrice: '2,890,000원',
+    tag: '맞춤 케어',
+    tagColor: 'bg-amber-700 text-white',
+    iconName: 'chair',
+    imageUrl: '/images/massagechair.jpg',
+    features: ['자동 체형 감지 정밀 안마 볼', '전신 감싸는 36개 에어포켓', '슬라이딩 리클라이닝 공간 절약', '저소음 쾌적 설계'],
+  },
+  {
+    id: 'cozyma-kaiser',
+    name: '코지마 카이저 시그니처 4D 리클라이너 (CMC-A600)',
+    category: 'healthcare',
+    brand: '코지마 (COZYMA)',
+    spec: '4D 심층 입체 마사지 / 무중력 틸팅 / 블루투스 오디오',
+    marketPrice: '3,200,000원',
+    tag: '프리미엄 안마',
+    tagColor: 'bg-amber-800 text-white',
+    iconName: 'chair',
+    imageUrl: '/images/massagechair.jpg',
+    features: ['종아리 온열 회전 롤러 마사지', '어깨·허리 집중 지압 코스', '최고급 가죽 럭셔리 마감', '터치패드 간편 조작'],
+  },
+  {
+    id: 'brams-goldeneagle',
+    name: '브람스 골든이글 더블스파 프리미엄 안마의자 (BMS-500)',
+    category: 'healthcare',
+    brand: '브람스 (BRAMS)',
+    spec: '더블 스파 발마사지 / 4D 롤러 / 무중력 포지션',
+    marketPrice: '2,790,000원',
+    tag: '스파 안마의자',
+    tagColor: 'bg-orange-700 text-white',
+    iconName: 'chair',
+    imageUrl: '/images/massagechair.jpg',
+    features: ['종아리 스크럽 롤러 더블 스파 케어', '입체 온열 롤러 척추 이완', '공간 절약 제로 슬라이딩', '한국인 맞춤 체형 프로그램'],
+  },
+  // Cuckoo Models
+  {
+    id: 'cuckoo-cooker-twin',
+    name: '쿠쿠 트윈프레셔 마스터셰프 10인용 IH 압력밥솥 (CRP-LHTR1010)',
+    category: 'kitchen',
+    brand: '쿠쿠 (CUCKOO)',
+    spec: '초고압 2기압 + 무압 듀얼 압력 / 스테인리스 내솥',
+    marketPrice: '620,000원',
+    tag: '밥솥 1위',
+    tagColor: 'bg-red-600 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/cuckoo.jpg',
+    features: ['초고압·무압 맞춤 트윈프레셔', '풀스테인리스 분리형 커버 안심 세척', '원터치 오픈 버튼 & 쾌속 취사', '에너지 1등급 친환경 절전'],
+  },
+  {
+    id: 'cuckoo-water-steam',
+    name: '쿠쿠 스팀 100도씨 끓는물 초소형 직수 정수기 (CP-ABS100GW)',
+    category: 'kitchen',
+    brand: '쿠쿠 (CUCKOO)',
+    spec: '100℃ 끓는물 직수 / 원터치 필터교체 / 나노포지티브 필터',
+    marketPrice: '1,190,000원',
+    tag: '100도 직수',
+    tagColor: 'bg-sky-600 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/cuckoo.jpg',
+    features: ['100℃ 끓는물로 차·커피·라면 완벽 추출', '전기분해 코크 살균 및 유로 세척', '가로 16.6cm 초슬림 미니 디자인', '4단계 온수 온도 미세조절'],
+  },
+  {
+    id: 'cuckoo-water-ice',
+    name: '쿠쿠 제로100 끓는물 & 얼음 직수 정수기 (CP-SS100HWS)',
+    category: 'kitchen',
+    brand: '쿠쿠 (CUCKOO)',
+    spec: '100℃ 온수 + 쾌속 투명 얼음 / 풀스테인리스 직수 유로',
+    marketPrice: '1,680,000원',
+    tag: '얼음정수기',
+    tagColor: 'bg-blue-500 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/cuckoo.jpg',
+    features: ['하루 600개 투명 단단 얼음 제빙', '100도씨 고온 끓는물 직수 출수', '직수관 자동 살균 케어', '에너지소비효율 1등급'],
+  },
+  {
+    id: 'cuckoo-dishwasher-marshmallow',
+    name: '쿠쿠 마시멜로 6인용 고온살균 카운터탑 식기세척기 (CDW-A0611)',
+    category: 'kitchen',
+    brand: '쿠쿠 (CUCKOO)',
+    spec: '6인용 콤팩트 / 43cm 와이드 세척 / 75도 고온살균',
+    marketPrice: '480,000원',
+    tag: '실속 식세기',
+    tagColor: 'bg-emerald-700 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/cuckoo.jpg',
+    features: ['타공 없는 무설치 물탱크 겸용', '75도 고온수 99.9% 살균 세척', '상하 듀얼 노즐 입체 세척', '자동 송풍 건조 모드'],
+  },
+  {
+    id: 'cuckoo-aircleaner-inspure',
+    name: '쿠쿠 인스퓨어 360도 초미세 청정 공기청정기 (W8200)',
+    category: 'digital',
+    brand: '쿠쿠 (CUCKOO)',
+    spec: '360도 서라운드 흡입 / 토탈 알레르기 집진 필터 / 25평형',
+    marketPrice: '590,000원',
+    tag: '청정 안심',
+    tagColor: 'bg-indigo-500 text-white',
+    iconName: 'mode_fan',
+    imageUrl: '/images/robot_vacuum.jpg',
+    features: ['초미세먼지 99.97% 제거 스마트 필터', '6단계 청정도 LED 라이팅', '자동 오염 감지 파워 청정', '유아 안심 무소음 취침모드'],
+  },
+  {
+    id: 'cuckoo-induction-chef',
+    name: '쿠쿠 셰프스틱 3구 올 화이트 프리존 인덕션 (CIR-E301FW)',
+    category: 'kitchen',
+    brand: '쿠쿠 (CUCKOO)',
+    spec: '3구 최고출력 3400W / 탐침형 무선 센서 셰프스틱 포함',
+    marketPrice: '1,290,000원',
+    tag: '셰프 인덕션',
+    tagColor: 'bg-purple-700 text-white',
+    iconName: 'kitchen',
+    imageUrl: '/images/cuckoo.jpg',
+    features: ['무선 셰프스틱 요리 내부온도 정밀 탐침', '끓어넘침 방지 자동 출력 조절', '화이트 유광 고급 글라스 상판', '16종 다중 안전장치 탑재'],
+  },
 ];
+
+const ADDITIONAL_APPLIANCES: ApplianceItem[] = REBORN_LINEUP_DATA
+  .filter((r) => !BASE_APPLIANCES.some((b) => b.id === r.id))
+  .map((r, index) => {
+    let cat: ApplianceItem['category'] = 'living';
+    let icon = 'sparkles';
+    if (r.category === 'TV') {
+      cat = 'tv';
+      icon = 'tv';
+    } else if (r.category === '냉장고') {
+      cat = 'fridge';
+      icon = 'kitchen';
+    } else if (r.category === '세탁건조') {
+      cat = 'washer';
+      icon = 'washer';
+    } else if (r.category === '에어컨/청정') {
+      cat = 'ac';
+      icon = 'ac';
+    } else if (r.category === '디지털') {
+      cat = 'digital';
+      icon = 'laptop';
+    } else if (r.category === '안마/헬스' || r.category === '척추의료가전') {
+      cat = 'healthcare';
+      icon = 'heart';
+    } else if (r.category === '뷰티케어') {
+      cat = 'beauty';
+      icon = 'sparkles';
+    } else if (r.category === '주방가전') {
+      cat = 'kitchen';
+      icon = 'kitchen';
+    }
+
+    return {
+      id: r.id,
+      name: r.title,
+      category: cat,
+      brand: r.brand,
+      spec: `모델: ${r.modelCode} / 더리본 공식 지원 라인업`,
+      marketPrice: '전액 지원 (0원)',
+      tag: index < 10 ? '공식 추천' : '지원 가전',
+      tagColor: 'bg-primary-container text-on-primary',
+      iconName: icon,
+      imageUrl: r.image,
+      features: [
+        `공식 모델명: ${r.modelCode}`,
+        '더리본 리빙플러스 100% 만기 전액환급',
+        '본사 공식 직배송 및 기사 무료 전문설치',
+        '제휴카드 추가 캐시백 할인 지원',
+      ],
+    };
+  });
+
+export const APPLIANCES: ApplianceItem[] = [...BASE_APPLIANCES, ...ADDITIONAL_APPLIANCES];
 
 export const APPLIANCE_PACKAGES: AppliancePackage[] = [
   {
@@ -329,7 +634,7 @@ export const FAQS = [
   },
   {
     q: '신청 자격 요건은 무엇인가요?',
-    a: '만 25세 이상 ~ 만 63세 이하의 대한민국 성인 남녀로서, 신용상 심각한 결격 사유(신용불량, 채무불이행 등록)가 없는 분이라면 누구나 100% 전액지원 대상자로 심사 및 선정이 가능합니다.',
+    a: '만 25세 이상 ~ 만 70세 이하의 대한민국 성인 남녀로서, 신용상 심각한 결격 사유(신용불량, 채무불이행 등록)가 없는 분이라면 누구나 가전지원 대상자로 심사 및 선정이 가능합니다.',
   },
 ];
 

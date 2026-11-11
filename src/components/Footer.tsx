@@ -44,8 +44,8 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyTerms }) => {
 
   const handleKakaoShare = async () => {
     const shareData = {
-      title: '더리본 | 최신가전 100% 전액지원 특별 프로모션',
-      text: '[더리본 공식] 삼성·LG 최신 인기가전 100% 전액지원 이벤트 신청 접수 중! 만기 시 납입금 100% 환급 혜택을 확인해보세요.',
+      title: '더리본 | 최신가전 가전지원 특별 프로모션',
+      text: '[더리본 공식] 삼성·LG 최신 인기가전 가전지원 이벤트 신청 접수 중! 만기 시 납입금 100% 환급 혜택을 확인해보세요.',
       url: window.location.href,
     };
 
@@ -223,19 +223,17 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyTerms }) => {
           책임한계 및 법적고지
         </button>
         <span>|</span>
-        <a href="tel:1588-4640" className="hover:text-[#00288e] underline transition-colors">
-          고객센터 1588-4640
+        <a href="tel:1644-3651" className="hover:text-[#00288e] underline transition-colors">
+          고객센터 1644-3651
         </a>
       </div>
 
-      <div className="text-[11px] text-[#757684] space-y-1 leading-relaxed max-w-md">
-        <p>(주)더리본 | 대표이사: 송기동 | 사업자등록번호: 214-88-29471</p>
-        <p>통신판매업신고: 제2013-서울강남-02198호 | 서울특별시 강남구 논현로 648</p>
-        <p>
-          선수금 보전기관: 신한은행·하나은행 소비자피해보상보험 채무지급보증 체결
-        </p>
+      <div className="text-[11px] text-[#757684] space-y-1.5 leading-relaxed max-w-xl">
+        <p>상호명: 더리본(주) &nbsp;|&nbsp; 대표자: 박명하 &nbsp;|&nbsp; 사업자등록번호: 605-81-92018</p>
+        <p>tel : 1644-3651 &nbsp;|&nbsp; fax: 02-3447-3666</p>
+        <p>서울 본사 : 서울 성동구 성수일로 111, 9F 914호 (성수동, 선명스퀘어) / 부산 본사 : 부산 부산진구 자유평화로 11, 12F (범천동, W웨딩시티)</p>
         <p className="text-slate-400 pt-2 text-[10px]">
-          본 이벤트는 만 25세~63세 대한민국 성인 대상 특별 전액지원 프로모션이며, 제조사 직배송 사은품은 한정수량 소진 시 조기 마감될 수 있습니다.
+          본 이벤트는 만 25세~70세 대한민국 성인 대상 특별 전액지원 프로모션이며, 제조사 직배송 사은품은 한정수량 소진 시 조기 마감될 수 있습니다.
         </p>
         <p className="text-slate-400 text-[10px]">
           Copyright © THE REBORN Co., Ltd. All Rights Reserved.
