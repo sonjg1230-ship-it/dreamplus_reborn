@@ -59,3 +59,21 @@ body {
 .animate-pulse-subtle {
   animation: pulse-subtle 2s infinite ease-in-out;
 }
+
+@keyframes ticker-scroll-up {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.animate-ticker-scroll-up {
+  animation: ticker-scroll-up var(--ticker-duration, 24s) linear infinite;
+}
+
+.animate-ticker-scroll-up:hover {
+  animation-play-state: paused;
+}
+

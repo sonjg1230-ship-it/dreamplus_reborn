@@ -143,82 +143,110 @@ export const LiveTicker: React.FC<LiveTickerProps> = ({
           <div className="col-span-2">진행상태</div>
         </div>
 
-        {/* Table Rolling Rows */}
-        <div className="divide-y divide-[#E2E8F0]/60 text-xs max-h-64 overflow-y-auto">
-          {filteredApplicants.length === 0 ? (
-            <div className="p-6 text-center text-xs text-slate-400">
-              {filterType === 'user'
-                ? '아직 직접 신청하신 내역이 없습니다. 하단 신청서를 작성하시면 즉시 여기에 등록됩니다.'
-                : '검색 조건과 일치하는 신청 내역이 없습니다.'}
+        {/* Table Rolling Rows (Bottom-to-Top Auto Scroll) */}
+        {filteredApplicants.length === 0 ? (
+          <div className="p-6 text-center text-xs text-slate-400">
+            {filterType === 'user'
+              ? '아직 직접 신청하신 내역이 없습니다. 하단 신청서를 작성하시면 즉시 여기에 등록됩니다.'
+              : '검색 조건과 일치하는 신청 내역이 없습니다.'}
+          </div>
+        ) : (
+          <div
+            className={`relative text-xs ${
+              filteredApplicants.length > 3 && !searchTerm.trim()
+                ? 'h-64 overflow-hidden'
+                : 'max-h-64 overflow-y-auto'
+            }`}
+          >
+            <div
+              className={
+                filteredApplicants.length > 3 && !searchTerm.trim()
+                  ? 'animate-ticker-scroll-up divide-y divide-[#E2E8F0]/60'
+                  : 'divide-y divide-[#E2E8F0]/60'
+              }
+              style={
+                filteredApplicants.length > 3 && !searchTerm.trim()
+                  ? ({
+                      '--ticker-duration': `${Math.max(14, filteredApplicants.length * 2.8)}s`,
+                    } as React.CSSProperties)
+                  : undefined
+              }
+            >
+              {(filteredApplicants.length > 3 && !searchTerm.trim()
+                ? [0, 1]
+                : [0]
+              ).map((copyIndex) => (
+                <div key={copyIndex} className="divide-y divide-[#E2E8F0]/60">
+                  {filteredApplicants.map((item, idx) => (
+                    <div
+                      key={`${copyIndex}-${item.id}`}
+                      onClick={() => onSelectApplicantDetail(item)}
+                      className={`grid grid-cols-12 px-3 py-2.5 text-center items-center hover:bg-[#eaedff]/40 transition-colors cursor-pointer ${
+                        item.isUserSubmission
+                          ? 'bg-emerald-50/70 border-l-4 border-l-[#059669]'
+                          : idx === 0
+                          ? 'bg-blue-50/40'
+                          : ''
+                      }`}
+                      title="클릭하여 상세 접수정보 보기"
+                    >
+                      {/* Date & Time */}
+                      <div className="col-span-3 text-[11px] text-slate-500 font-mono flex flex-col items-center">
+                        <span>{item.date}</span>
+                        <span className="text-[10px] text-slate-400">{item.time || '12:00'}</span>
+                      </div>
+
+                      {/* Name */}
+                      <div className="col-span-2 font-bold text-[#131b2e] flex items-center justify-center gap-1">
+                        <span>{item.name}</span>
+                        {item.isUserSubmission && (
+                          <span className="text-[9px] bg-[#059669] text-white px-1 py-0.2 rounded font-bold">
+                            나
+                          </span>
+                        )}
+                        {idx === 0 && !item.isUserSubmission && (
+                          <span className="text-[9px] bg-red-600 text-white px-1 py-0.2 rounded font-bold animate-pulse">
+                            NEW
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Masked Phone */}
+                      <div className="col-span-3 font-mono text-[#00288e] font-bold text-[11px]">
+                        {item.maskedPhone}
+                      </div>
+
+                      {/* Age & Region */}
+                      <div className="col-span-2 text-[10px] text-slate-600">
+                        <span className="inline-block px-1.5 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">
+                          {item.region ? `${item.region} · ` : ''}
+                          {item.ageGroup}
+                        </span>
+                      </div>
+
+                      {/* Status Badge */}
+                      <div className="col-span-2">
+                        <span
+                          className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${
+                            item.status === '접수완료'
+                              ? 'bg-blue-100 text-[#00288e]'
+                              : item.status === '자격심사중'
+                              ? 'bg-amber-100 text-amber-800'
+                              : item.status === '상담원배정'
+                              ? 'bg-emerald-100 text-[#059669]'
+                              : 'bg-slate-100 text-slate-700'
+                          }`}
+                        >
+                          {item.status}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
-          ) : (
-            filteredApplicants.map((item, idx) => (
-              <div
-                key={item.id}
-                onClick={() => onSelectApplicantDetail(item)}
-                className={`grid grid-cols-12 px-3 py-2.5 text-center items-center hover:bg-[#eaedff]/40 transition-colors cursor-pointer ${
-                  item.isUserSubmission
-                    ? 'bg-emerald-50/70 border-l-4 border-l-[#059669]'
-                    : idx === 0
-                    ? 'bg-blue-50/40'
-                    : ''
-                }`}
-                title="클릭하여 상세 접수정보 보기"
-              >
-                {/* Date & Time */}
-                <div className="col-span-3 text-[11px] text-slate-500 font-mono flex flex-col items-center">
-                  <span>{item.date}</span>
-                  <span className="text-[10px] text-slate-400">{item.time || '12:00'}</span>
-                </div>
-
-                {/* Name */}
-                <div className="col-span-2 font-bold text-[#131b2e] flex items-center justify-center gap-1">
-                  <span>{item.name}</span>
-                  {item.isUserSubmission && (
-                    <span className="text-[9px] bg-[#059669] text-white px-1 py-0.2 rounded font-bold">
-                      나
-                    </span>
-                  )}
-                  {idx === 0 && !item.isUserSubmission && (
-                    <span className="text-[9px] bg-red-600 text-white px-1 py-0.2 rounded font-bold animate-pulse">
-                      NEW
-                    </span>
-                  )}
-                </div>
-
-                {/* Masked Phone */}
-                <div className="col-span-3 font-mono text-[#00288e] font-bold text-[11px]">
-                  {item.maskedPhone}
-                </div>
-
-                {/* Age & Region */}
-                <div className="col-span-2 text-[10px] text-slate-600">
-                  <span className="inline-block px-1.5 py-0.5 bg-slate-100 rounded text-slate-700 font-medium">
-                    {item.region ? `${item.region} · ` : ''}
-                    {item.ageGroup}
-                  </span>
-                </div>
-
-                {/* Status Badge */}
-                <div className="col-span-2">
-                  <span
-                    className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-bold ${
-                      item.status === '접수완료'
-                        ? 'bg-blue-100 text-[#00288e]'
-                        : item.status === '자격심사중'
-                        ? 'bg-amber-100 text-amber-800'
-                        : item.status === '상담원배정'
-                        ? 'bg-emerald-100 text-[#059669]'
-                        : 'bg-slate-100 text-slate-700'
-                    }`}
-                  >
-                    {item.status}
-                  </span>
-                </div>
-              </div>
-            ))
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Footer info bar */}
         <div className="px-3 py-2.5 bg-slate-50 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-1 text-[11px] text-slate-500">

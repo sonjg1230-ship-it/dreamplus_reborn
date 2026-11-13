@@ -20,7 +20,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onApplyClick }) => {
       <h1 className="text-3xl font-extrabold text-[#131b2e] tracking-tight mb-2 leading-tight">
         최신가전, <br />
         <span className="text-[#1e40af] underline decoration-[#F97316] decoration-wavy decoration-2">
-          전액지원
+          본인부담금 0원
         </span>{' '}
         받아가기
       </h1>

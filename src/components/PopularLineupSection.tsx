@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Sparkles, Check, X, Search, ChevronDown, Eye } from 'lucide-react';
+import { Sparkles, Check, X, Search, ChevronDown, Eye, Package } from 'lucide-react';
 import { REBORN_LINEUP_DATA, ApplianceLineupItem } from '../data/rebornLineupData';
 
 export type BrandTabType = 'LG' | '삼성' | '세라젬' | '홈세라' | '브람스·안마' | '쿠쿠' | '생활/헬스' | '전체';
@@ -34,6 +34,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
   const [activeBrand, setActiveBrand] = useState<BrandTabType>('LG');
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState<number>(24);
+  const [failedImages, setFailedImages] = useState<Record<string, boolean>>({});
 
   // Slot 1 and Slot 2 tracking
   const [slot1, setSlot1] = useState<ApplianceLineupItem | null>(() => {
@@ -350,23 +351,31 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
                 >
                   {/* 1. Top Image Area */}
                   <div className="h-36 sm:h-44 w-full bg-white p-3 flex items-center justify-center relative overflow-hidden">
-                    <img
-                      key={`${item.id}-${item.image}`}
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 block"
-                      loading="lazy"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        if (target.dataset.fallbackApplied === 'true') return;
-                        target.dataset.fallbackApplied = 'true';
-                        if (item.fallbackImage) {
-                          target.src = item.fallbackImage;
-                        } else {
-                          target.style.visibility = 'hidden';
-                        }
-                      }}
-                    />
+                    {failedImages[item.id] ? (
+                      <div className="flex flex-col items-center justify-center text-slate-300 gap-1.5 select-none">
+                        <Package className="w-8 h-8 stroke-[1.5]" />
+                        <span className="text-[10px] font-medium text-slate-400">{item.brand} · {item.category}</span>
+                      </div>
+                    ) : (
+                      <img
+                        key={`${item.id}-${item.image}`}
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 block"
+                        decoding="async"
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          if (item.fallbackImage && target.dataset.fallbackApplied !== 'true') {
+                            target.dataset.fallbackApplied = 'true';
+                            target.src = item.fallbackImage;
+                            return;
+                          }
+                          setFailedImages((prev) =>
+                            prev[item.id] ? prev : { ...prev, [item.id]: true }
+                          );
+                        }}
+                      />
+                    )}
                     {/* Selected Badge Indicator */}
                     {isSelected && (
                       <div className="absolute top-2.5 right-2.5 bg-[#0D6EFD] text-white text-[10px] font-extrabold px-2 py-0.5 rounded-full shadow-sm flex items-center gap-1 z-10">
