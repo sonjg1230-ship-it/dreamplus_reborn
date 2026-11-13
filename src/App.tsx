@@ -161,6 +161,19 @@ export default function App() {
     }
   };
 
+  const scrollToLineup = () => {
+    if (currentTab !== 'home') {
+      setCurrentTab('home');
+      setTimeout(() => {
+        const lineupEl = document.getElementById('popular-lineup');
+        lineupEl?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      const lineupEl = document.getElementById('popular-lineup');
+      lineupEl?.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const handleSelectApplianceFromCard = (applianceId: string) => {
     setSelectedAppliance1(applianceId);
     scrollToForm();
@@ -249,12 +262,14 @@ export default function App() {
           </div>
 
           {/* 인기 지원가전 공식 라인업 (스크린샷 스타일 컴포넌트) */}
-          <PopularLineupSection
-            onSelectAppliance={handleSelectApplianceFromCard}
-            onSelectAppliancePair={handleApplyWithPackage}
-            selectedAppliance1={selectedAppliance1}
-            selectedAppliance2={selectedAppliance2}
-          />
+          <div id="popular-lineup" className="scroll-mt-24">
+            <PopularLineupSection
+              onSelectAppliance={handleSelectApplianceFromCard}
+              onSelectAppliancePair={handleApplyWithPackage}
+              selectedAppliance1={selectedAppliance1}
+              selectedAppliance2={selectedAppliance2}
+            />
+          </div>
 
           {/* 신청 절차 3단계 */}
           <ProcessSection />
@@ -297,6 +312,7 @@ export default function App() {
       <BottomNav
         currentTab={currentTab}
         onChangeTab={setCurrentTab}
+        onScrollToLineup={scrollToLineup}
         onScrollToForm={scrollToForm}
       />
 

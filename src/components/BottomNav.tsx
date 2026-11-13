@@ -3,31 +3,38 @@ import React from 'react';
 interface BottomNavProps {
   currentTab: 'home' | 'benefits';
   onChangeTab: (tab: 'home' | 'benefits') => void;
+  onScrollToLineup: () => void;
   onScrollToForm: () => void;
 }
 
 export const BottomNav: React.FC<BottomNavProps> = ({
   currentTab,
   onChangeTab,
+  onScrollToLineup,
   onScrollToForm,
 }) => {
+  const [activeNav, setActiveNav] = React.useState<'home' | 'lineup'>('home');
+  const isHomeActive = currentTab === 'home' && activeNav === 'home';
+  const isLineupActive = currentTab === 'home' && activeNav === 'lineup';
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 w-full z-50 flex justify-around items-center px-3 py-2 max-w-xl lg:max-w-4xl xl:max-w-5xl mx-auto bg-white/95 backdrop-blur-md shadow-[0_-4px_20px_rgba(0,0,0,0.08)] border-t border-slate-200">
       {/* 홈 */}
       <button
         onClick={() => {
+          setActiveNav('home');
           onChangeTab('home');
           window.scrollTo({ top: 0, behavior: 'smooth' });
         }}
         className={`flex flex-col items-center justify-center px-4 py-1.5 rounded-xl transition-all duration-150 active:scale-95 ${
-          currentTab === 'home'
+          isHomeActive
             ? 'text-[#00288e] font-bold bg-[#eaedff]'
             : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
         }`}
       >
         <span
           className={`material-symbols-outlined text-[22px] ${
-            currentTab === 'home' ? 'material-symbols-fill' : ''
+            isHomeActive ? 'material-symbols-fill' : ''
           }`}
         >
           home
@@ -35,26 +42,26 @@ export const BottomNav: React.FC<BottomNavProps> = ({
         <span className="text-[11px] mt-0.5">홈</span>
       </button>
 
-      {/* 지원혜택 */}
+      {/* 가전지원 */}
       <button
         onClick={() => {
-          onChangeTab('benefits');
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          setActiveNav('lineup');
+          onScrollToLineup();
         }}
         className={`flex flex-col items-center justify-center px-4 py-1.5 rounded-xl transition-all duration-150 active:scale-95 ${
-          currentTab === 'benefits'
+          isLineupActive
             ? 'text-[#00288e] font-bold bg-[#eaedff]'
             : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
         }`}
       >
         <span
           className={`material-symbols-outlined text-[22px] ${
-            currentTab === 'benefits' ? 'material-symbols-fill' : ''
+            isLineupActive ? 'material-symbols-fill' : ''
           }`}
         >
           redeem
         </span>
-        <span className="text-[11px] mt-0.5">지원혜택</span>
+        <span className="text-[11px] mt-0.5">가전지원</span>
       </button>
 
       {/* 신청하기 (Active Primary CTA) */}

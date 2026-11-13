@@ -330,18 +330,19 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
         </div>
       ) : (
         <>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full">
             {visibleItems.map((item) => {
               const isSlot1 = slot1?.id === item.id;
               const isSlot2 = slot2?.id === item.id;
               const isSelected = isSlot1 || isSlot2;
               const rankLabel = isSlot1 ? '1순위' : isSlot2 ? '2순위' : null;
+              const cacheBustedSrc = `${item.image}?v=20261113`;
 
               return (
                 <div
                   key={item.id}
                   onClick={() => handleToggleItem(item)}
-                  className={`bg-white rounded-2xl border transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between group shadow-2xs ${
+                  className={`min-w-0 w-full bg-white rounded-2xl border transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between group shadow-2xs ${
                     isSelected
                       ? 'border-[#0D6EFD] ring-2 ring-blue-100 shadow-md'
                       : 'border-slate-200/90 hover:border-blue-400 hover:shadow-sm'
@@ -350,31 +351,38 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
                   tabIndex={0}
                 >
                   {/* 1. Top Image Area */}
-                  <div className="h-36 sm:h-44 w-full bg-white p-3 flex items-center justify-center relative overflow-hidden">
+                  <div className="relative w-full h-36 sm:h-44 shrink-0 bg-white overflow-hidden">
                     {failedImages[item.id] ? (
-                      <div className="flex flex-col items-center justify-center text-slate-300 gap-1.5 select-none">
+                      <div className="w-full h-full flex flex-col items-center justify-center text-slate-300 gap-1.5 select-none p-3">
                         <Package className="w-8 h-8 stroke-[1.5]" />
-                        <span className="text-[10px] font-medium text-slate-400">{item.brand} · {item.category}</span>
+                        <span className="text-[10px] font-medium text-slate-400 text-center">{item.brand} · {item.category}</span>
                       </div>
                     ) : (
-                      <img
-                        key={`${item.id}-${item.image}`}
-                        src={item.image}
-                        alt={item.title}
-                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 block"
-                        decoding="async"
-                        onError={(e) => {
-                          const target = e.currentTarget;
-                          if (item.fallbackImage && target.dataset.fallbackApplied !== 'true') {
-                            target.dataset.fallbackApplied = 'true';
-                            target.src = item.fallbackImage;
-                            return;
-                          }
-                          setFailedImages((prev) =>
-                            prev[item.id] ? prev : { ...prev, [item.id]: true }
-                          );
-                        }}
-                      />
+                      <div className="absolute inset-2.5 sm:inset-3 flex items-center justify-center">
+                        <img
+                          key={`${item.id}-${item.image}`}
+                          src={cacheBustedSrc}
+                          alt={item.title}
+                          loading="eager"
+                          className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300 block"
+                          onError={(e) => {
+                            const target = e.currentTarget;
+                            if (target.dataset.retriedClean !== 'true') {
+                              target.dataset.retriedClean = 'true';
+                              target.src = item.image;
+                              return;
+                            }
+                            if (item.fallbackImage && target.dataset.fallbackApplied !== 'true') {
+                              target.dataset.fallbackApplied = 'true';
+                              target.src = item.fallbackImage;
+                              return;
+                            }
+                            setFailedImages((prev) =>
+                              prev[item.id] ? prev : { ...prev, [item.id]: true }
+                            );
+                          }}
+                        />
+                      </div>
                     )}
                     {/* Selected Badge Indicator */}
                     {isSelected && (
