@@ -12,7 +12,6 @@ import { ApplicationForm } from './components/ApplicationForm';
 import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
 import { BenefitDetailsView } from './components/BenefitDetailsView';
-import { AppliancesCatalogView } from './components/AppliancesCatalogView';
 import { ApplicationStatusModal } from './components/ApplicationStatusModal';
 import { SuccessModal } from './components/SuccessModal';
 import { PrivacyModal } from './components/PrivacyModal';
@@ -24,7 +23,7 @@ import { ApplicantRecord, ApplicationFormData } from './types';
 const STORAGE_KEY = 'the_reborn_applicants_v2';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<'home' | 'benefits' | 'appliances'>('home');
+  const [currentTab, setCurrentTab] = useState<'home' | 'benefits'>('home');
 
   // Initialize applicants from localStorage or mockData
   const [applicants, setApplicants] = useState<ApplicantRecord[]>(() => {
@@ -255,7 +254,6 @@ export default function App() {
             onSelectAppliancePair={handleApplyWithPackage}
             selectedAppliance1={selectedAppliance1}
             selectedAppliance2={selectedAppliance2}
-            onViewAllAppliances={() => setCurrentTab('appliances')}
           />
 
           {/* 신청 절차 3단계 */}
@@ -293,10 +291,6 @@ export default function App() {
             handleApplyWithPackage(app1 || '', app2 || '', planId);
           }}
         />
-      )}
-
-      {currentTab === 'appliances' && (
-        <AppliancesCatalogView onSelectToApply={handleSelectApplianceFromCard} />
       )}
 
       {/* 4. SHARED FIXED BOTTOM NAVIGATION */}

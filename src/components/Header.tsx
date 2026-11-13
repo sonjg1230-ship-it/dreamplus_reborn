@@ -6,7 +6,7 @@ interface HeaderProps {
   onOpenStatusCheck: () => void;
   onOpenCalculator?: () => void;
   activeTab: string;
-  onSelectTab: (tab: 'home' | 'benefits' | 'appliances') => void;
+  onSelectTab: (tab: 'home' | 'benefits') => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({

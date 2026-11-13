@@ -149,7 +149,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '위생 케어',
     tagColor: 'bg-secondary text-on-secondary',
     iconName: 'dry_cleaning',
-    imageUrl: '/images/washtower.jpg',
+    imageUrl: '/images/reborn/prod_011.jpg',
     features: ['미세먼지 99% 제거 무빙행어', '트루스팀 바이러스·유해세균 살균', '바지 칼주름 관리기 내장', '저소음 쾌속 케어 코스'],
   },
   {
@@ -162,7 +162,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '실속 가전',
     tagColor: 'bg-slate-500 text-white',
     iconName: 'devices_other',
-    imageUrl: '/images/laptop.jpg',
+    imageUrl: '/images/reborn/prod_101.jpg',
     features: ['자동 먼지통 비움 청정스테이션', '미세먼지 99.999% 배출 차단', '물걸레 브러시 포함 풀세트', '2년 무상 A/S 보증'],
   },
   // Additional Official LG Models
@@ -176,7 +176,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: 'LG 대표TV',
     tagColor: 'bg-primary-container text-on-primary',
     iconName: 'tv',
-    imageUrl: '/images/tv.jpg',
+    imageUrl: '/images/reborn/prod_002.jpg',
     features: ['α8 AI 4K 프로세서 탑재', '미니LED 정밀 디밍', '돌비 비전 & 돌비 애트모스', '벽걸이/스탠드 본사 무상설치'],
   },
   {
@@ -189,7 +189,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '청소 해방',
     tagColor: 'bg-emerald-600 text-white',
     iconName: 'devices_other',
-    imageUrl: '/images/robot_vacuum.jpg',
+    imageUrl: '/images/reborn/prod_003.jpg',
     features: ['100℃ 트루스팀 냄새·살균 99.9%', '라이다 AI 센서 사물 자동인식', '먼지 비움부터 걸레 건조까지 전자동', 'LG ThinQ 앱 스마트 원격제어'],
   },
   {
@@ -202,7 +202,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '에어컨 1위',
     tagColor: 'bg-blue-600 text-white',
     iconName: 'mode_fan',
-    imageUrl: '/images/airconditioner.jpg',
+    imageUrl: '/images/reborn/prod_004.jpg',
     features: ['AI 스마트케어로 알아서 공간 냉방', '클린봇 열교환기 자동 살균', '에너지소비효율 1등급', '전문 배관 기본 무료설치'],
   },
   {
@@ -215,7 +215,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '초경량 IT',
     tagColor: 'bg-slate-700 text-white',
     iconName: 'laptop_mac',
-    imageUrl: '/images/laptop.jpg',
+    imageUrl: '/images/reborn/prod_005.jpg',
     features: ['독보적 가벼움과 휴대성', '대용량 배터리 최대 20시간 지속', '초고화질 IPS 디스플레이', 'Windows 11 정품 기본 탑재'],
   },
   {
@@ -228,7 +228,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '주방 프리미엄',
     tagColor: 'bg-indigo-600 text-white',
     iconName: 'kitchen',
-    imageUrl: '/images/fridge.jpg',
+    imageUrl: '/images/reborn/prod_006.jpg',
     features: ['노크 두 번으로 내부 확인 노크온', '도어쿨링+ 기술로 도어 앞까지 신선', 'UV 안심제균+ 청정탈취', '오브제 메탈 감성 디자인'],
   },
   {
@@ -241,7 +241,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '삼식이 필수',
     tagColor: 'bg-teal-600 text-white',
     iconName: 'kitchen',
-    imageUrl: '/images/cuckoo.jpg',
+    imageUrl: '/images/reborn/prod_064.jpg',
     features: ['트루스팀으로 유해세균·바이러스 99.999% 제거', '토네이도 세척날개 빈틈없는 세척', '자동 문열림 건조 시스템', '스마트폰 세척 코스 다운로드'],
   },
   // Additional Official Samsung Models
@@ -361,7 +361,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '100도 직수',
     tagColor: 'bg-sky-600 text-white',
     iconName: 'kitchen',
-    imageUrl: '/images/cuckoo.jpg',
+    imageUrl: '/images/reborn/prod_133.jpg',
     features: ['100℃ 끓는물로 차·커피·라면 완벽 추출', '전기분해 코크 살균 및 유로 세척', '가로 16.6cm 초슬림 미니 디자인', '4단계 온수 온도 미세조절'],
   },
   {
@@ -374,7 +374,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '얼음정수기',
     tagColor: 'bg-blue-500 text-white',
     iconName: 'kitchen',
-    imageUrl: '/images/cuckoo.jpg',
+    imageUrl: '/images/reborn/prod_050.jpg',
     features: ['하루 600개 투명 단단 얼음 제빙', '100도씨 고온 끓는물 직수 출수', '직수관 자동 살균 케어', '에너지소비효율 1등급'],
   },
   {
@@ -387,7 +387,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '실속 식세기',
     tagColor: 'bg-emerald-700 text-white',
     iconName: 'kitchen',
-    imageUrl: '/images/cuckoo.jpg',
+    imageUrl: '/images/reborn/prod_174.jpg',
     features: ['타공 없는 무설치 물탱크 겸용', '75도 고온수 99.9% 살균 세척', '상하 듀얼 노즐 입체 세척', '자동 송풍 건조 모드'],
   },
   {
@@ -400,7 +400,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '청정 안심',
     tagColor: 'bg-indigo-500 text-white',
     iconName: 'mode_fan',
-    imageUrl: '/images/robot_vacuum.jpg',
+    imageUrl: '/images/reborn/prod_139.jpg',
     features: ['초미세먼지 99.97% 제거 스마트 필터', '6단계 청정도 LED 라이팅', '자동 오염 감지 파워 청정', '유아 안심 무소음 취침모드'],
   },
   {
@@ -413,7 +413,7 @@ const BASE_APPLIANCES: ApplianceItem[] = [
     tag: '셰프 인덕션',
     tagColor: 'bg-purple-700 text-white',
     iconName: 'kitchen',
-    imageUrl: '/images/cuckoo.jpg',
+    imageUrl: '/images/reborn/prod_143.jpg',
     features: ['무선 셰프스틱 요리 내부온도 정밀 탐침', '끓어넘침 방지 자동 출력 조절', '화이트 유광 고급 글라스 상판', '16종 다중 안전장치 탑재'],
   },
 ];
@@ -423,28 +423,33 @@ const ADDITIONAL_APPLIANCES: ApplianceItem[] = REBORN_LINEUP_DATA
   .map((r, index) => {
     let cat: ApplianceItem['category'] = 'living';
     let icon = 'sparkles';
-    if (r.category === 'TV') {
+    if (r.category === 'TV/모니터') {
       cat = 'tv';
       icon = 'tv';
-    } else if (r.category === '냉장고') {
+    } else if (r.category === '냉장고' || r.category === '김치냉장고') {
       cat = 'fridge';
       icon = 'kitchen';
-    } else if (r.category === '세탁건조') {
+    } else if (r.category === '세탁·건조기' || r.category === '의류관리기') {
       cat = 'washer';
-      icon = 'washer';
-    } else if (r.category === '에어컨/청정') {
+      icon = 'local_laundry_service';
+    } else if (r.category === '에어컨' || r.category === '청정·제습') {
       cat = 'ac';
-      icon = 'ac';
-    } else if (r.category === '디지털') {
+      icon = 'mode_fan';
+    } else if (r.category === '노트북/PC') {
       cat = 'digital';
       icon = 'laptop';
-    } else if (r.category === '안마/헬스' || r.category === '척추의료가전') {
+    } else if (r.category === '안마/릴렉스' || r.category === '헬스/생활') {
       cat = 'healthcare';
       icon = 'heart';
-    } else if (r.category === '뷰티케어') {
-      cat = 'beauty';
+    } else if (r.category === '뷰티케어' || r.category === '펫가전') {
+      cat = r.category === '뷰티케어' ? 'beauty' : 'living';
       icon = 'sparkles';
-    } else if (r.category === '주방가전') {
+    } else if (
+      r.category === '주방가전' ||
+      r.category === '정수기' ||
+      r.category === '식기세척기' ||
+      r.category === '음식물처리기'
+    ) {
       cat = 'kitchen';
       icon = 'kitchen';
     }

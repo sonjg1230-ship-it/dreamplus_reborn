@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Sparkles, Check, X, Search, ChevronDown, Eye } from 'lucide-react';
 import { REBORN_LINEUP_DATA, ApplianceLineupItem } from '../data/rebornLineupData';
 
-export type BrandTabType = 'LG' | '삼성' | '세라젬' | '홈세라' | '바디프랜드' | '쿠쿠' | '생활/헬스' | '전체';
+export type BrandTabType = 'LG' | '삼성' | '세라젬' | '홈세라' | '브람스·안마' | '쿠쿠' | '생활/헬스' | '전체';
 
 export { REBORN_LINEUP_DATA as APPLIANCE_LINEUP_DATA };
 export type { ApplianceLineupItem };
@@ -12,7 +12,6 @@ interface PopularLineupSectionProps {
   onSelectAppliancePair?: (app1: string, app2: string) => void;
   selectedAppliance1?: string;
   selectedAppliance2?: string;
-  onViewAllAppliances?: () => void;
 }
 
 const BRAND_TABS: BrandTabType[] = [
@@ -20,7 +19,7 @@ const BRAND_TABS: BrandTabType[] = [
   '삼성',
   '세라젬',
   '홈세라',
-  '바디프랜드',
+  '브람스·안마',
   '쿠쿠',
   '생활/헬스',
   '전체',
@@ -114,7 +113,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
       onSelectAppliance(app1Id);
     }
 
-    const formElement = document.getElementById('apply-form');
+    const formElement = document.getElementById('application-form');
     if (formElement) {
       formElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
@@ -183,7 +182,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
         {/* Subtitle */}
         <p className="text-xs sm:text-sm text-slate-600 max-w-xl mx-auto leading-relaxed">
           원하시는 가전을 <span className="text-[#2563EB] font-bold">2개까지 선택</span>하시면 본인부담금 0원으로 동시에 전액 지원됩니다.
-          <br className="hidden sm:inline" /> LG, 삼성, 세라젬, 홈세라, 바디프랜드, 쿠쿠 등 공식 200여 종 전체 지원!
+          <br className="hidden sm:inline" /> LG, 삼성, 세라젬, 홈세라, 브람스, 쿠쿠 등 리빙플러스 공식 {REBORN_LINEUP_DATA.length}종 전 제품 지원!
         </p>
       </div>
 
@@ -352,14 +351,19 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
                   {/* 1. Top Image Area */}
                   <div className="h-36 sm:h-44 w-full bg-white p-3 flex items-center justify-center relative overflow-hidden">
                     <img
+                      key={`${item.id}-${item.image}`}
                       src={item.image}
                       alt={item.title}
                       className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300 block"
                       loading="lazy"
                       onError={(e) => {
                         const target = e.currentTarget;
-                        if (item.fallbackImage && target.src !== item.fallbackImage) {
+                        if (target.dataset.fallbackApplied === 'true') return;
+                        target.dataset.fallbackApplied = 'true';
+                        if (item.fallbackImage) {
                           target.src = item.fallbackImage;
+                        } else {
+                          target.style.visibility = 'hidden';
                         }
                       }}
                     />
