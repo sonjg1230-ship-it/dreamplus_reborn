@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Sparkles, Check, X, Search, ChevronDown, Eye, Package } from 'lucide-react';
 import { REBORN_LINEUP_DATA, ApplianceLineupItem } from '../data/rebornLineupData';
+import { REBORN_THUMBS } from '../data/rebornThumbs';
 
 export type BrandTabType = 'LG' | '삼성' | '세라젬' | '홈세라' | '브람스·안마' | '쿠쿠' | '생활/헬스' | '전체';
 
@@ -336,7 +337,7 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
               const isSlot2 = slot2?.id === item.id;
               const isSelected = isSlot1 || isSlot2;
               const rankLabel = isSlot1 ? '1순위' : isSlot2 ? '2순위' : null;
-              const cacheBustedSrc = `${item.image}?v=20261113`;
+              const imgSrc = REBORN_THUMBS[item.image] || `${item.image}?v=20261113`;
 
               return (
                 <div
@@ -360,21 +361,16 @@ export const PopularLineupSection: React.FC<PopularLineupSectionProps> = ({
                     ) : (
                       <div className="absolute inset-2.5 sm:inset-3 flex items-center justify-center">
                         <img
-                          key={`${item.id}-${item.image}`}
-                          src={cacheBustedSrc}
+                          key={item.id}
+                          src={imgSrc}
                           alt={item.title}
                           loading="eager"
                           className="max-w-full max-h-full w-auto h-auto object-contain group-hover:scale-105 transition-transform duration-300 block"
                           onError={(e) => {
                             const target = e.currentTarget;
-                            if (target.dataset.retriedClean !== 'true') {
-                              target.dataset.retriedClean = 'true';
-                              target.src = item.image;
-                              return;
-                            }
                             if (item.fallbackImage && target.dataset.fallbackApplied !== 'true') {
                               target.dataset.fallbackApplied = 'true';
-                              target.src = item.fallbackImage;
+                              target.src = REBORN_THUMBS[item.fallbackImage] || item.fallbackImage;
                               return;
                             }
                             setFailedImages((prev) =>

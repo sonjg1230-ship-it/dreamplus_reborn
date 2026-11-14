@@ -1,5 +1,6 @@
 import { ApplianceItem, ApplicantRecord, AppliancePackage, MembershipPlan } from '../types';
 import { REBORN_LINEUP_DATA } from './rebornLineupData';
+import { REBORN_THUMBS } from './rebornThumbs';
 
 export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqppjlkp';
 
@@ -464,7 +465,7 @@ const ADDITIONAL_APPLIANCES: ApplianceItem[] = REBORN_LINEUP_DATA
       tag: index < 10 ? '공식 추천' : '지원 가전',
       tagColor: 'bg-primary-container text-on-primary',
       iconName: icon,
-      imageUrl: r.image,
+      imageUrl: REBORN_THUMBS[r.image] || r.image,
       features: [
         `공식 모델명: ${r.modelCode}`,
         '더리본 리빙플러스 100% 만기 전액환급',
@@ -474,7 +475,13 @@ const ADDITIONAL_APPLIANCES: ApplianceItem[] = REBORN_LINEUP_DATA
     };
   });
 
-export const APPLIANCES: ApplianceItem[] = [...BASE_APPLIANCES, ...ADDITIONAL_APPLIANCES];
+export const APPLIANCES: ApplianceItem[] = [
+  ...BASE_APPLIANCES.map((a) => ({
+    ...a,
+    imageUrl: (a.imageUrl && REBORN_THUMBS[a.imageUrl]) || a.imageUrl,
+  })),
+  ...ADDITIONAL_APPLIANCES,
+];
 
 export const APPLIANCE_PACKAGES: AppliancePackage[] = [
   {
