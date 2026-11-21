@@ -4,11 +4,25 @@ import { ApplianceItem, MembershipPlan } from '../types';
 
 interface SavingsBenefitCalculatorProps {
   onApplyWithPackage: (appliance1Id: string, appliance2Id: string, planId?: string) => void;
+  isExpanded?: boolean;
+  onToggleExpand?: () => void;
 }
 
 export const SavingsBenefitCalculator: React.FC<SavingsBenefitCalculatorProps> = ({
   onApplyWithPackage,
+  isExpanded: controlledExpanded,
+  onToggleExpand,
 }) => {
+  const [internalExpanded, setInternalExpanded] = useState(false);
+  const isExpanded = controlledExpanded !== undefined ? controlledExpanded : internalExpanded;
+  const handleToggleExpand = () => {
+    if (onToggleExpand) {
+      onToggleExpand();
+    } else {
+      setInternalExpanded((prev) => !prev);
+    }
+  };
+
   // 6 Official Membership Plans
   const [selectedPlanId, setSelectedPlanId] = useState<string>('plan-double-gold');
   const [planGroupFilter, setPlanGroupFilter] = useState<'all' | '트리플' | '더블' | '싱글'>('all');
@@ -123,23 +137,62 @@ export const SavingsBenefitCalculator: React.FC<SavingsBenefitCalculatorProps> =
   };
 
   return (
-    <div className="bg-white rounded-2xl border-2 border-[#1e40af] p-4 sm:p-5 shadow-xl relative overflow-hidden my-8">
+    <div className="bg-white rounded-2xl border-2 border-[#1e40af] p-4 sm:p-5 shadow-xl relative overflow-hidden my-8 transition-all duration-300">
       {/* Decorative Accent */}
       <div className="absolute -right-12 -top-12 w-52 h-52 bg-[#eaedff]/60 rounded-full blur-2xl pointer-events-none" />
 
-      {/* Header */}
-      <div className="border-b border-[#E2E8F0] pb-4 mb-5 text-center relative z-10">
-        <div className="inline-flex items-center gap-1.5 bg-[#eaedff] text-[#00288e] text-[11px] font-bold px-3 py-1 rounded-full mb-1.5 border border-[#dae2fd]">
-          <span className="material-symbols-outlined text-[15px]">verified</span>
-          <span>더리본 리빙플러스 공식 6대 멤버십 플랜 &amp; 188회 만기환급 계산기</span>
+      {/* Clickable Accordion Header */}
+      <button
+        type="button"
+        onClick={handleToggleExpand}
+        aria-expanded={isExpanded}
+        className={`w-full text-left relative z-10 cursor-pointer flex items-center justify-between gap-3 group transition-colors ${
+          isExpanded ? 'border-b border-[#E2E8F0] pb-4' : ''
+        }`}
+      >
+        <div className="flex-1 min-w-0">
+          <div className="inline-flex items-center gap-1.5 bg-[#eaedff] text-[#00288e] text-[11px] font-bold px-3 py-1 rounded-full mb-1.5 border border-[#dae2fd]">
+            <span className="material-symbols-outlined text-[15px]">verified</span>
+            <span>더리본 리빙플러스 공식 6대 멤버십 플랜 &amp; 188회 만기환급 계산기</span>
+          </div>
+          <h2 className="text-lg sm:text-2xl font-extrabold text-[#131b2e] tracking-tight">
+            공식 멤버십 6개 플랜 &amp; 만기환급 시뮬레이터
+          </h2>
+          <p className="text-xs text-slate-600 mt-1">
+            {isExpanded
+              ? '더리본 공식 규정(188회 만기 100% 전액환급)에 따른 전자제품 지원 및 만기 환급금을 확인하세요.'
+              : '클릭하시면 6개 공식 플랜 월 납입금 및 만기 100% 전액 환급 혜택을 바로 계산해 보실 수 있습니다.'}
+          </p>
         </div>
-        <h2 className="text-xl sm:text-2xl font-extrabold text-[#131b2e] tracking-tight">
-          공식 멤버십 6개 플랜 &amp; 만기환급 시뮬레이터
-        </h2>
-        <p className="text-xs text-slate-600 mt-1">
-          더리본 공식 규정(188회 만기 100% 전액환급)에 따른 전자제품 지원 및 만기 환급금을 확인하세요.
-        </p>
-      </div>
+
+        <span
+          className={`shrink-0 inline-flex items-center gap-1 px-3 py-2 rounded-xl text-xs font-bold transition-all ${
+            isExpanded
+              ? 'bg-slate-100 text-slate-700 group-hover:bg-slate-200'
+              : 'bg-[#1e40af] text-white shadow-md shadow-[#1e40af]/20 group-hover:bg-[#00288e]'
+          }`}
+        >
+          <span className="whitespace-nowrap">{isExpanded ? '접기' : '열어보기'}</span>
+          <span
+            className={`material-symbols-outlined text-[20px] transition-transform duration-300 ${
+              isExpanded ? 'rotate-180' : ''
+            }`}
+          >
+            expand_more
+          </span>
+        </span>
+      </button>
+
+      {/* Collapsible Simulator Content */}
+      <div
+        aria-hidden={!isExpanded}
+        className={`grid transition-all duration-300 ease-in-out ${
+          isExpanded
+            ? 'grid-rows-[1fr] opacity-100 mt-5 visible'
+            : 'grid-rows-[0fr] opacity-0 mt-0 invisible pointer-events-none'
+        }`}
+      >
+        <div className="overflow-hidden">
 
       {/* 1. Official 6 Membership Plans Selector */}
       <div className="mb-6">
@@ -646,6 +699,8 @@ export const SavingsBenefitCalculator: React.FC<SavingsBenefitCalculatorProps> =
         * (주)더리본 공식 규정: 납입기간(188회) 만료 1개월 경과 후 해약 시 전자제품 할부금을 포함하여
         100% 전액 환급됩니다. (할부거래법 제27조에 따라 신한은행·하나은행 50% 법정 선수금 예치 완료)
       </p>
+        </div>
+      </div>
     </div>
   );
 };

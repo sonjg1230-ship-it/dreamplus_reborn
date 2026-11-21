@@ -47,6 +47,7 @@ export default function App() {
   const [selectedAppliance1, setSelectedAppliance1] = useState<string>('samsung-85tv');
   const [selectedAppliance2, setSelectedAppliance2] = useState<string>('wash-tower');
   const [selectedPlanId, setSelectedPlanId] = useState<string>('plan-double-gold');
+  const [isCalculatorExpanded, setIsCalculatorExpanded] = useState<boolean>(false);
 
   // Modals state
   const [isStatusModalOpen, setIsStatusModalOpen] = useState(false);
@@ -136,6 +137,7 @@ export default function App() {
   };
 
   const scrollToCalculator = () => {
+    setIsCalculatorExpanded(true);
     if (currentTab !== 'home') {
       setCurrentTab('home');
       setTimeout(() => {
@@ -258,7 +260,11 @@ export default function App() {
 
           {/* INTERACTIVE SAVINGS / BENEFIT CALCULATOR */}
           <div id="savings-calculator" className="scroll-mt-24">
-            <SavingsBenefitCalculator onApplyWithPackage={handleApplyWithPackage} />
+            <SavingsBenefitCalculator
+              onApplyWithPackage={handleApplyWithPackage}
+              isExpanded={isCalculatorExpanded}
+              onToggleExpand={() => setIsCalculatorExpanded((prev) => !prev)}
+            />
           </div>
 
           {/* 인기 지원가전 공식 라인업 (스크린샷 스타일 컴포넌트) */}

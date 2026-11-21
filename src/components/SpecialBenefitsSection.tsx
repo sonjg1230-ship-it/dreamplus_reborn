@@ -14,7 +14,7 @@ export const SpecialBenefitsSection: React.FC<SpecialBenefitsSectionProps> = ({
       <div className="text-center mb-5">
         <span className="text-[#F97316] text-xs font-bold tracking-wider">SPECIAL BENEFIT</span>
         <h2 className="text-2xl font-extrabold text-[#131b2e] mt-1 tracking-tight">
-          더리본 스페셜 멤버십 3대 혜택
+          더리본 스페셜 멤버십 4대 혜택
         </h2>
         <p className="text-xs text-slate-600 mt-1">
           가전도 지원받고, 납입금은 만기 시 전액 그대로 환급!
@@ -99,6 +99,37 @@ export const SpecialBenefitsSection: React.FC<SpecialBenefitsSectionProps> = ({
                 지원받은 가전 반납 의무 일체 없음! 만기 시 익월에 전자제품 할부금을 포함하여 납입하신 금액 100% 전액을 그대로 안전하게
                 환급해 드립니다.
               </p>
+            </div>
+          </div>
+        </div>
+
+        {/* 혜택 04 */}
+        <div className="bg-white p-4 rounded-xl border border-[#E2E8F0] shadow-sm relative overflow-hidden">
+          <div className="absolute -right-2 -bottom-2 text-[#e2e7ff]/60 text-[72px] font-bold select-none leading-none pointer-events-none">
+            04
+          </div>
+          <div className="flex items-start gap-3 relative z-10">
+            <div className="w-10 h-10 rounded-xl bg-[#0284c7] text-white flex items-center justify-center shrink-0 shadow-sm">
+              <span className="material-symbols-outlined text-[22px]">medical_services</span>
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-[#0284c7]">BENEFIT 04</span>
+                <span className="bg-[#e0f2fe] text-[#0369a1] text-[10px] font-bold px-1.5 py-0.5 rounded">
+                  GC케어 제휴
+                </span>
+              </div>
+              <h3 className="text-base font-bold text-[#131b2e] mt-0.5">
+                GC케어-더리본 맞춤형 헬스케어 서비스 지원
+              </h3>
+              <ul className="text-xs text-slate-600 mt-1.5 space-y-1 leading-relaxed">
+                <li>
+                  <strong className="text-slate-800">평상시 케어(본인·가족 최대 4인):</strong> 전문의료진 건강상담, 진료예약 대행, 건강검진 연계
+                </li>
+                <li>
+                  <strong className="text-slate-800">중대질환 케어(가입 6개월 후·1인):</strong> 앰뷸런스 이송, 차량 에스코트, 간호사 동행, 간병인·가사도우미 지원
+                </li>
+              </ul>
             </div>
           </div>
         </div>
