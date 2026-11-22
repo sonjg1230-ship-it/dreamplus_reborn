@@ -1,0 +1,131 @@
+{
+  "entities": {
+    "Application": {
+      "title": "Application",
+      "description": "Customer home appliance subsidy application submission",
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 50,
+          "description": "Applicant full name"
+        },
+        "phone": {
+          "type": "string",
+          "minLength": 9,
+          "maxLength": 20,
+          "pattern": "^[0-9-]+$",
+          "description": "Applicant contact phone number"
+        },
+        "ageGroup": {
+          "type": "string",
+          "minLength": 2,
+          "maxLength": 20,
+          "description": "Applicant age group"
+        },
+        "appliance1": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200,
+          "description": "Primary selected appliance name"
+        },
+        "appliance2": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 200,
+          "description": "Secondary selected appliance name"
+        },
+        "planId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Selected membership plan ID"
+        },
+        "planName": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120,
+          "description": "Selected membership plan display name"
+        },
+        "preferredTime": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80,
+          "description": "Preferred consultation time window"
+        },
+        "privacyAgreed": {
+          "type": "boolean",
+          "description": "Privacy policy consent agreement"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["접수완료", "자격심사중", "상담원배정", "해피콜완료", "배송일정조율"],
+          "description": "Current application review status"
+        },
+        "adminNote": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 500,
+          "description": "Internal administrator consultation memo"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of application creation"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp of latest admin status update"
+        }
+      },
+      "required": [
+        "name",
+        "phone",
+        "ageGroup",
+        "appliance1",
+        "planId",
+        "planName",
+        "preferredTime",
+        "privacyAgreed",
+        "status",
+        "createdAt"
+      ]
+    },
+    "AdminUser": {
+      "title": "AdminUser",
+      "description": "Authorized administrator account record",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "maxLength": 120,
+          "description": "Admin Google email"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["admin"],
+          "description": "Admin role identifier"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Server timestamp when admin record was created"
+        }
+      },
+      "required": ["email", "role", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/applications/{applicationId}": {
+      "schema": { "$ref": "#/entities/Application" },
+      "description": "Stores customer appliance subsidy applications for admin review and Excel export"
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminUser" },
+      "description": "Tracks authorized admin UIDs for Firestore rule enforcement"
+    }
+  }
+}

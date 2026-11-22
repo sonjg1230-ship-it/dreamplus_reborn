@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 import { APPLIANCES, REBORN_MEMBERSHIP_PLANS, FORMSPREE_ENDPOINT } from '../data/mockData';
 import { ApplicationFormData } from '../types';
+import { db, handleFirestoreError, OperationType } from '../firebase';
 
 interface ApplicationFormProps {
   preselectedAppliance1?: string;
@@ -102,62 +104,128 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
 
     setIsSubmitting(true);
 
-    const fullPhone = `${phonePrefix}-${phoneMid}-${phoneEnd}`;
-    const matchedApp1 = APPLIANCES.find((a) => a.id === appliance1)?.name || appliance1;
+    const trimmedName = name.trim().slice(0, 50);
+    const fullPhone = `${phonePrefix}-${phoneMid}-${phoneEnd}`.slice(0, 20);
+    const matchedApp1 = (APPLIANCES.find((a) => a.id === appliance1)?.name || appliance1).trim().slice(0, 200);
     const matchedApp2 =
       appliance2 && appliance2 !== 'none'
-        ? APPLIANCES.find((a) => a.id === appliance2)?.name || appliance2
+        ? (APPLIANCES.find((a) => a.id === appliance2)?.name || appliance2).trim().slice(0, 200)
         : '선택 안 함 (1개 단독)';
-    const matchedPlan =
-      REBORN_MEMBERSHIP_PLANS.find((p) => p.id === planId)?.name ||
-      (planId === 'consult' ? '상담 후 추천 플랜 결정' : planId);
+    const safePlanId = (planId || 'consult').trim().slice(0, 80);
+    const matchedPlan = (
+      REBORN_MEMBERSHIP_PLANS.find((p) => p.id === safePlanId)?.name ||
+      (safePlanId === 'consult' ? '상담 후 추천 플랜 결정' : safePlanId)
+    )
+      .trim()
+      .slice(0, 120);
+    const safeAgeGroup = selectedAge.trim().slice(0, 20);
+    const safePreferredTime = preferredTime.trim().slice(0, 80);
+
+    const firestorePayload = {
+      name: trimmedName,
+      phone: fullPhone,
+      ageGroup: safeAgeGroup,
+      appliance1: matchedApp1,
+      appliance2: matchedApp2,
+      planId: safePlanId,
+      planName: matchedPlan,
+      preferredTime: safePreferredTime,
+      privacyAgreed: true,
+      status: '접수완료' as const,
+      createdAt: serverTimestamp(),
+    };
 
     // Formspree payload with clear readable fields
     const formspreePayload = {
-      _subject: `[더리본 가전지원] 신규신청: ${name.trim()} (${fullPhone})`,
-      name: name.trim(),
+      _subject: `[더리본 가전지원] 신규신청: ${trimmedName} (${fullPhone})`,
+      name: trimmedName,
       phone: fullPhone,
-      ageGroup: selectedAge,
+      ageGroup: safeAgeGroup,
       appliance1: matchedApp1,
       appliance2: matchedApp2,
       membershipPlan: matchedPlan,
-      preferredTime: preferredTime,
+      preferredTime: safePreferredTime,
       privacyAgreed: '동의완료 (필수)',
       submittedAt: new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }),
       clientUrl: typeof window !== 'undefined' ? window.location.href : '',
     };
 
+    let dbSaved = false;
     try {
-      // POST to Formspree
-      const res = await fetch(FORMSPREE_ENDPOINT, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify(formspreePayload),
-      });
-
-      if (!res.ok) {
-        console.warn('Formspree returned status:', res.status);
+      // 1. Save to server-side database for instant password-only Admin dashboard & Excel export
+      try {
+        const apiRes = await fetch('/api/applications', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: trimmedName,
+            phone: fullPhone,
+            ageGroup: safeAgeGroup,
+            appliance1: matchedApp1,
+            appliance2: matchedApp2,
+            planId: safePlanId,
+            planName: matchedPlan,
+            preferredTime: safePreferredTime,
+            privacyAgreed: true,
+          }),
+        });
+        if (apiRes.ok) {
+          dbSaved = true;
+        }
+      } catch (apiErr) {
+        console.error('Server DB application create failed:', apiErr);
       }
-    } catch (err) {
-      console.error('Formspree network submission error:', err);
-      // We continue to complete the user flow smoothly even if network has CORS or adblock
-    } finally {
-      setIsSubmitting(false);
+
+      // 2. Save to Firestore cloud backup
+      try {
+        await addDoc(collection(db, 'applications'), firestorePayload);
+        dbSaved = true;
+      } catch (dbErr) {
+        try {
+          handleFirestoreError(dbErr, OperationType.CREATE, 'applications');
+        } catch (wrappedErr) {
+          console.error('Firestore application create failed:', wrappedErr);
+        }
+      }
+
+      // 3. POST to Formspree
+      let formspreeOk = false;
+      try {
+        const res = await fetch(FORMSPREE_ENDPOINT, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify(formspreePayload),
+        });
+        formspreeOk = res.ok;
+        if (!res.ok) {
+          console.warn('Formspree returned status:', res.status);
+        }
+      } catch (err) {
+        console.error('Formspree network submission error:', err);
+      }
+
+      if (!dbSaved && !formspreeOk) {
+        setFormError('접수 저장 중 일시적인 네트워크 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
+        return;
+      }
+
       onSubmitSuccess({
-        name: name.trim(),
+        name: trimmedName,
         phonePrefix,
         phoneMid,
         phoneEnd,
-        ageGroup: selectedAge,
+        ageGroup: safeAgeGroup,
         appliance1,
         appliance2,
-        preferredTime,
+        preferredTime: safePreferredTime,
         privacyAgreed,
-        planId,
+        planId: safePlanId,
       });
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

@@ -1,0 +1,117 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Global default-deny safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwnerAdmin() {
+      return isSignedIn() &&
+        request.auth.token.email == 'sonjg1230@gmail.com' &&
+        request.auth.token.email_verified == true;
+    }
+
+    function isAdmin() {
+      return isOwnerAdmin() || (
+        isSignedIn() &&
+        request.auth.token.email_verified == true &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidApplication(data) {
+      return data.keys().hasAll([
+          'name',
+          'phone',
+          'ageGroup',
+          'appliance1',
+          'planId',
+          'planName',
+          'preferredTime',
+          'privacyAgreed',
+          'status',
+          'createdAt'
+        ]) &&
+        data.keys().hasOnly([
+          'name',
+          'phone',
+          'ageGroup',
+          'appliance1',
+          'appliance2',
+          'planId',
+          'planName',
+          'preferredTime',
+          'privacyAgreed',
+          'status',
+          'adminNote',
+          'createdAt',
+          'updatedAt'
+        ]) &&
+        data.name is string && data.name.size() >= 2 && data.name.size() <= 50 &&
+        data.phone is string && data.phone.size() >= 9 && data.phone.size() <= 20 && data.phone.matches('^[0-9-]+$') &&
+        data.ageGroup is string && data.ageGroup.size() >= 2 && data.ageGroup.size() <= 20 &&
+        data.appliance1 is string && data.appliance1.size() >= 1 && data.appliance1.size() <= 200 &&
+        (!('appliance2' in data) || (data.appliance2 is string && data.appliance2.size() <= 200)) &&
+        data.planId is string && data.planId.size() >= 1 && data.planId.size() <= 80 &&
+        data.planName is string && data.planName.size() >= 1 && data.planName.size() <= 120 &&
+        data.preferredTime is string && data.preferredTime.size() >= 1 && data.preferredTime.size() <= 80 &&
+        data.privacyAgreed is bool && data.privacyAgreed == true &&
+        data.status in ['접수완료', '자격심사중', '상담원배정', '해피콜완료', '배송일정조율'] &&
+        (!('adminNote' in data) || (data.adminNote is string && data.adminNote.size() <= 500)) &&
+        data.createdAt is timestamp &&
+        (!('updatedAt' in data) || data.updatedAt is timestamp);
+    }
+
+    function isValidAdminUser(data) {
+      return data.keys().hasAll(['email', 'role', 'createdAt']) &&
+        data.keys().hasOnly(['email', 'role', 'createdAt']) &&
+        data.email is string && data.email.size() >= 3 && data.email.size() <= 120 &&
+        data.role == 'admin' &&
+        data.createdAt is timestamp;
+    }
+
+    match /applications/{applicationId} {
+      allow get: if isValidId(applicationId) && isAdmin();
+      allow list: if isAdmin();
+      allow create: if isValidId(applicationId) &&
+        isValidApplication(incoming()) &&
+        incoming().status == '접수완료' &&
+        !('adminNote' in incoming()) &&
+        !('updatedAt' in incoming()) &&
+        incoming().createdAt == request.time;
+      allow update: if isValidId(applicationId) &&
+        isValidApplication(incoming()) &&
+        isAdmin() &&
+        incoming().createdAt == existing().createdAt &&
+        incoming().updatedAt == request.time &&
+        incoming().diff(existing()).affectedKeys().hasOnly(['status', 'adminNote', 'updatedAt']);
+      allow delete: if isValidId(applicationId) && isAdmin();
+    }
+
+    match /admins/{adminId} {
+      allow get: if isValidId(adminId) && (isOwnerAdmin() || (isSignedIn() && request.auth.uid == adminId));
+      allow list: if isOwnerAdmin();
+      allow create: if isValidId(adminId) && isOwnerAdmin() && isValidAdminUser(incoming()) && incoming().createdAt == request.time;
+      allow update: if isValidId(adminId) && isOwnerAdmin() && isValidAdminUser(incoming()) && incoming().createdAt == existing().createdAt;
+      allow delete: if isValidId(adminId) && isOwnerAdmin();
+    }
+  }
+}

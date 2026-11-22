@@ -11,19 +11,21 @@ import { LiveTicker } from './components/LiveTicker';
 import { ApplicationForm } from './components/ApplicationForm';
 import { FAQSection } from './components/FAQSection';
 import { Footer } from './components/Footer';
+import { AdminPage } from './components/AdminPage';
 import { BenefitDetailsView } from './components/BenefitDetailsView';
 import { ApplicationStatusModal } from './components/ApplicationStatusModal';
 import { SuccessModal } from './components/SuccessModal';
 import { PrivacyModal } from './components/PrivacyModal';
 import { ApplicantDetailModal } from './components/ApplicantDetailModal';
 import { LiveNotificationToast } from './components/LiveNotificationToast';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { INITIAL_APPLICANTS, APPLIANCES } from './data/mockData';
 import { ApplicantRecord, ApplicationFormData } from './types';
 
 const STORAGE_KEY = 'the_reborn_applicants_v2';
 
 export default function App() {
-  const [currentTab, setCurrentTab] = useState<'home' | 'benefits'>('home');
+  const [currentTab, setCurrentTab] = useState<'home' | 'benefits' | 'admin'>('home');
 
   // Initialize applicants from localStorage or mockData
   const [applicants, setApplicants] = useState<ApplicantRecord[]>(() => {
@@ -302,7 +304,13 @@ export default function App() {
           <FAQSection />
 
           {/* FOOTER */}
-          <Footer onOpenPrivacyTerms={() => setIsPrivacyModalOpen(true)} />
+          <Footer
+            onOpenPrivacyTerms={() => setIsPrivacyModalOpen(true)}
+            onOpenAdmin={() => {
+              setCurrentTab('admin');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
         </main>
       )}
 
@@ -314,13 +322,26 @@ export default function App() {
         />
       )}
 
+      {currentTab === 'admin' && (
+        <ErrorBoundary onReset={() => setCurrentTab('home')}>
+          <AdminPage
+            onBackHome={() => {
+              setCurrentTab('home');
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
+          />
+        </ErrorBoundary>
+      )}
+
       {/* 4. SHARED FIXED BOTTOM NAVIGATION */}
-      <BottomNav
-        currentTab={currentTab}
-        onChangeTab={setCurrentTab}
-        onScrollToLineup={scrollToLineup}
-        onScrollToForm={scrollToForm}
-      />
+      {currentTab !== 'admin' && (
+        <BottomNav
+          currentTab={currentTab === 'benefits' ? 'benefits' : 'home'}
+          onChangeTab={setCurrentTab}
+          onScrollToLineup={scrollToLineup}
+          onScrollToForm={scrollToForm}
+        />
+      )}
 
       {/* 5. FLOATING REAL-TIME APPLICATION NOTIFICATION TOAST */}
       <LiveNotificationToast

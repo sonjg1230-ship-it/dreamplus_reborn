@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
-import { Share2, Copy, Check, Sparkles } from 'lucide-react';
+import { Copy, Check, Sparkles, Lock } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface FooterProps {
   onOpenPrivacyTerms: () => void;
+  onOpenAdmin: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyTerms }) => {
+export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyTerms, onOpenAdmin }) => {
   const [copied, setCopied] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -238,6 +239,17 @@ export const Footer: React.FC<FooterProps> = ({ onOpenPrivacyTerms }) => {
         <p className="text-slate-400 text-[10px]">
           Copyright © THE REBORN Co., Ltd. All Rights Reserved.
         </p>
+        <div className="pt-3 flex justify-center">
+          <button
+            type="button"
+            onClick={onOpenAdmin}
+            className="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-400 hover:text-[#00288e] bg-slate-100/80 hover:bg-[#eaedff] border border-slate-200/80 hover:border-[#dae2fd] px-3 py-1.5 rounded-lg transition-colors cursor-pointer"
+            title="접수 DB 관리자 페이지 열기"
+          >
+            <Lock className="w-3 h-3" />
+            <span>관리자 페이지</span>
+          </button>
+        </div>
       </div>
     </footer>
   );

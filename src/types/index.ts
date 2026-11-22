@@ -71,3 +71,28 @@ export interface ApplicationFormData {
   planId?: string;
 }
 
+export type ApplicationStatus =
+  | '접수완료'
+  | '자격심사중'
+  | '상담원배정'
+  | '해피콜완료'
+  | '배송일정조율';
+
+export interface AdminApplicationRecord {
+  id: string;
+  name: string;
+  phone: string;
+  ageGroup: string;
+  appliance1: string;
+  appliance2?: string;
+  planId: string;
+  planName: string;
+  preferredTime: string;
+  privacyAgreed: boolean;
+  status: ApplicationStatus;
+  adminNote?: string;
+  createdAt?: Date | null;
+  updatedAt?: Date | null;
+}
+
+
