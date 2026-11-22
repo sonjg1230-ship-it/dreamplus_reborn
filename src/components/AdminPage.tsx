@@ -150,6 +150,12 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
     setAuthError(null);
     try {
       const res = await fetch('/api/admin/status');
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error(
+          '백엔드 인증 서버 응답을 받지 못했습니다. 최신 버전으로 다시 배포(공유 업데이트)했는지 확인해 주세요.'
+        );
+      }
       if (!res.ok) throw new Error('서버 상태를 확인하지 못했습니다.');
       const data = (await res.json()) as {
         configured: boolean;
