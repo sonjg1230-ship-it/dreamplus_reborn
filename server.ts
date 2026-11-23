@@ -569,7 +569,11 @@ async function startServer() {
     }
   });
 
-  const isProd = process.env.NODE_ENV === 'production';
+  const distDir = path.join(__dirname, 'dist');
+  const isProd =
+    process.env.NODE_ENV === 'production' ||
+    (process.env.NODE_ENV !== 'development' && fs.existsSync(path.join(distDir, 'index.html')));
+
   if (!isProd) {
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
@@ -578,7 +582,6 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    const distDir = path.join(__dirname, 'dist');
     app.use(express.static(distDir));
     app.get('*', (_req: Request, res: Response) => {
       res.sendFile(path.join(distDir, 'index.html'));

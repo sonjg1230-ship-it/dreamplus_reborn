@@ -1,8 +1,21 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+  updateDoc,
+  type Timestamp,
+} from 'firebase/firestore';
+import { onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth';
 import * as XLSX from 'xlsx';
 import {
   ArrowLeft,
   Check,
+  Cloud,
   Download,
   FileSpreadsheet,
   KeyRound,
@@ -14,6 +27,7 @@ import {
   ShieldCheck,
   Trash2,
 } from 'lucide-react';
+import { auth, db, googleProvider, handleFirestoreError, OperationType } from '../firebase';
 import { AdminApplicationRecord, ApplicationStatus } from '../types';
 
 interface AdminPageProps {
@@ -53,9 +67,12 @@ const STATUS_BADGE_CLASS: Record<ApplicationStatus, string> = {
   배송일정조율: 'bg-purple-50 text-purple-700 border-purple-200',
 };
 
-function parseIsoDateOrNull(val: unknown): Date | null {
+function parseDateOrNull(val: unknown): Date | null {
   if (!val) return null;
   if (val instanceof Date) return val;
+  if (typeof (val as Timestamp).toDate === 'function') {
+    return (val as Timestamp).toDate();
+  }
   if (typeof val === 'string') {
     const parsed = new Date(val);
     return Number.isNaN(parsed.getTime()) ? null : parsed;
@@ -100,14 +117,16 @@ function mapApiItemToRecord(item: ApiApplicationItem): AdminApplicationRecord {
     privacyAgreed: Boolean(item.privacyAgreed),
     status: safeStatus,
     adminNote: item.adminNote || '',
-    createdAt: parseIsoDateOrNull(item.createdAt),
-    updatedAt: parseIsoDateOrNull(item.updatedAt),
+    createdAt: parseDateOrNull(item.createdAt),
+    updatedAt: parseDateOrNull(item.updatedAt),
   };
 }
 
 export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
-  // Server-side passcode session (held strictly in JS memory, never localStorage)
-  const [statusLoading, setStatusLoading] = useState(true);
+  // 'detecting' -> 'server' (passcode-only SQLite API) or 'cloud' (Firestore + Google Admin fallback on static hosts)
+  const [backendMode, setBackendMode] = useState<'detecting' | 'server' | 'cloud'>('detecting');
+
+  // Server passcode session (held strictly in JS memory, never localStorage)
   const [needsSetup, setNeedsSetup] = useState(false);
   const [passcodeSource, setPasscodeSource] = useState<'env' | 'db' | 'none'>('none');
   const [adminToken, setAdminToken] = useState<string | null>(null);
@@ -116,6 +135,13 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
   const [confirmPasscodeInput, setConfirmPasscodeInput] = useState('');
   const [authSubmitting, setAuthSubmitting] = useState(false);
   const [authError, setAuthError] = useState<string | null>(null);
+
+  // Cloud (Firebase Google Auth) state when hosted statically without Express API
+  const [authReady, setAuthReady] = useState(false);
+  const [firebaseUser, setFirebaseUser] = useState<User | null>(null);
+  const [googleAuthLoading, setGoogleAuthLoading] = useState(false);
+  const [googleAuthError, setGoogleAuthError] = useState<string | null>(null);
+  const [isPermissionDenied, setIsPermissionDenied] = useState(false);
 
   // DB records
   const [records, setRecords] = useState<AdminApplicationRecord[]>([]);
@@ -131,7 +157,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
   const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
   const [actionBanner, setActionBanner] = useState<string | null>(null);
 
-  // Optional passcode change drawer
+  // Optional passcode change drawer (server mode)
   const [showChangePasscode, setShowChangePasscode] = useState(false);
   const [newPasscode, setNewPasscode] = useState('');
   const [newPasscodeConfirm, setNewPasscodeConfirm] = useState('');
@@ -144,19 +170,17 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
     }, 3200);
   };
 
-  // Check server admin passcode status
-  const fetchPasscodeStatus = useCallback(async () => {
-    setStatusLoading(true);
+  // Detect whether Express API server is active; otherwise automatically fall back to Firestore cloud mode
+  const detectBackendMode = useCallback(async () => {
+    setBackendMode('detecting');
     setAuthError(null);
     try {
-      const res = await fetch('/api/admin/status');
+      const res = await fetch('/api/admin/status', { cache: 'no-store' });
       const contentType = res.headers.get('content-type') || '';
-      if (!contentType.includes('application/json')) {
-        throw new Error(
-          '백엔드 인증 서버 응답을 받지 못했습니다. 최신 버전으로 다시 배포(공유 업데이트)했는지 확인해 주세요.'
-        );
+      if (!res.ok || !contentType.includes('application/json')) {
+        setBackendMode('cloud');
+        return;
       }
-      if (!res.ok) throw new Error('서버 상태를 확인하지 못했습니다.');
       const data = (await res.json()) as {
         configured: boolean;
         needsSetup: boolean;
@@ -164,21 +188,31 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
       };
       setNeedsSetup(Boolean(data.needsSetup));
       setPasscodeSource(data.source || 'none');
-    } catch (err) {
-      setAuthError(err instanceof Error ? err.message : '관리자 인증 서버와 연결할 수 없습니다.');
-    } finally {
-      setStatusLoading(false);
+      setBackendMode('server');
+    } catch {
+      setBackendMode('cloud');
     }
   }, []);
 
   useEffect(() => {
-    void fetchPasscodeStatus();
-  }, [fetchPasscodeStatus]);
+    void detectBackendMode();
+  }, [detectBackendMode]);
 
-  // Fetch application DB records once passcode session token is granted
-  const fetchApplications = useCallback(
+  // Listen to Firebase Auth state (used in cloud fallback mode)
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, (user) => {
+      setFirebaseUser(user);
+      setAuthReady(true);
+      setDbError(null);
+      setIsPermissionDenied(false);
+    });
+    return () => unsub();
+  }, []);
+
+  // SERVER MODE: Fetch applications via Express API
+  const fetchServerApplications = useCallback(
     async (silent = false) => {
-      if (!adminToken) return;
+      if (backendMode !== 'server' || !adminToken) return;
       if (!silent) setDbLoading(true);
       setDbError(null);
       try {
@@ -203,23 +237,80 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
         if (!silent) setDbLoading(false);
       }
     },
-    [adminToken]
+    [backendMode, adminToken]
   );
 
   useEffect(() => {
-    if (!adminToken) {
-      setRecords([]);
-      setDbLoading(false);
-      return;
-    }
-    void fetchApplications(false);
+    if (backendMode !== 'server' || !adminToken) return;
+    void fetchServerApplications(false);
     const interval = setInterval(() => {
-      void fetchApplications(true);
+      void fetchServerApplications(true);
     }, 15000);
     return () => clearInterval(interval);
-  }, [adminToken, fetchApplications]);
+  }, [backendMode, adminToken, fetchServerApplications]);
 
-  // First-time passcode setup submit
+  // CLOUD MODE: Attach real-time Firestore snapshot listener when signed in with Admin Google account
+  useEffect(() => {
+    if (backendMode !== 'cloud' || !authReady || !firebaseUser) {
+      return;
+    }
+
+    setDbLoading(true);
+    setDbError(null);
+    setIsPermissionDenied(false);
+
+    const q = query(collection(db, 'applications'), orderBy('createdAt', 'desc'));
+    const unsub = onSnapshot(
+      q,
+      (snapshot) => {
+        const list: AdminApplicationRecord[] = snapshot.docs.map((snap) => {
+          const data = snap.data();
+          const rawStatus = String(data.status || '접수완료');
+          const safeStatus: ApplicationStatus = STATUS_OPTIONS.includes(rawStatus as ApplicationStatus)
+            ? (rawStatus as ApplicationStatus)
+            : '접수완료';
+          return {
+            id: snap.id,
+            name: String(data.name || ''),
+            phone: String(data.phone || ''),
+            ageGroup: String(data.ageGroup || ''),
+            appliance1: String(data.appliance1 || ''),
+            appliance2: typeof data.appliance2 === 'string' ? data.appliance2 : '',
+            planId: String(data.planId || ''),
+            planName: String(data.planName || ''),
+            preferredTime: String(data.preferredTime || ''),
+            privacyAgreed: Boolean(data.privacyAgreed),
+            status: safeStatus,
+            adminNote: typeof data.adminNote === 'string' ? data.adminNote : '',
+            createdAt: parseDateOrNull(data.createdAt),
+            updatedAt: parseDateOrNull(data.updatedAt),
+          };
+        });
+        setRecords(list);
+        setDbLoading(false);
+      },
+      (error) => {
+        setDbLoading(false);
+        try {
+          handleFirestoreError(error, OperationType.LIST, 'applications');
+        } catch (structuredErr) {
+          const msg = structuredErr instanceof Error ? structuredErr.message : String(structuredErr);
+          const permError =
+            msg.toLowerCase().includes('permission') || msg.toLowerCase().includes('insufficient');
+          setIsPermissionDenied(permError);
+          setDbError(
+            permError
+              ? '현재 로그인된 Google 계정에 관리자 DB 조회 권한이 없습니다. 등록된 관리자 계정으로 전환해 주세요.'
+              : '클라우드 DB를 불러오는 중 오류가 발생했습니다.'
+          );
+        }
+      }
+    );
+
+    return () => unsub();
+  }, [backendMode, authReady, firebaseUser]);
+
+  // First-time passcode setup submit (Server mode)
   const handleSetupSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError(null);
@@ -257,7 +348,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
     }
   };
 
-  // Standard passcode login submit
+  // Standard passcode login submit (Server mode)
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError(null);
@@ -293,16 +384,83 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
     }
   };
 
-  const handleAdminLogout = () => {
+  // Cloud mode Google Sign-in
+  const handleGoogleSignIn = async () => {
+    setGoogleAuthError(null);
+    setGoogleAuthLoading(true);
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      if (msg.includes('unauthorized-domain')) {
+        setGoogleAuthError(
+          `현재 도메인(${window.location.hostname})이 Firebase 승인 도메인에 등록되지 않았습니다. Firebase Console > Authentication > 설정 > 승인된 도메인에 추가해 주세요.`
+        );
+      } else if (msg.includes('popup-blocked')) {
+        setGoogleAuthError(
+          '모바일/브라우저에서 로그인 팝업이 차단되었습니다. 팝업 차단을 허용하거나 Chrome/Safari 기본 브라우저로 열어주세요.'
+        );
+      } else if (!msg.includes('popup-closed-by-user')) {
+        setGoogleAuthError(
+          'Google 로그인에 실패했습니다. 카카오톡 인앱 브라우저인 경우 기본 브라우저(Chrome/Safari)로 열어 다시 시도해 주세요.'
+        );
+      }
+    } finally {
+      setGoogleAuthLoading(false);
+    }
+  };
+
+  const handleSwitchGoogleAccount = async () => {
+    setGoogleAuthError(null);
+    setGoogleAuthLoading(true);
+    try {
+      await signOut(auth);
+      await signInWithPopup(auth, googleProvider);
+    } catch {
+      setGoogleAuthError('계정 전환에 실패했습니다. 기본 브라우저 및 팝업 허용 여부를 확인해 주세요.');
+    } finally {
+      setGoogleAuthLoading(false);
+    }
+  };
+
+  const handleAdminLogout = async () => {
     setAdminToken(null);
     setRecords([]);
     setShowChangePasscode(false);
+    if (backendMode === 'cloud' && firebaseUser) {
+      await signOut(auth);
+    }
   };
 
   const handleStatusChange = async (record: AdminApplicationRecord, nextStatus: ApplicationStatus) => {
-    if (!adminToken || record.status === nextStatus) return;
+    if (record.status === nextStatus) return;
     setSavingId(record.id);
     setDbError(null);
+
+    if (backendMode === 'cloud') {
+      try {
+        await updateDoc(doc(db, 'applications', record.id), {
+          status: nextStatus,
+          updatedAt: serverTimestamp(),
+        });
+        showTempBanner(`${record.name} 님의 상태가 '${nextStatus}'(으)로 변경되었습니다.`);
+      } catch (err) {
+        try {
+          handleFirestoreError(err, OperationType.UPDATE, `applications/${record.id}`);
+        } catch {
+          setDbError('상태 변경 중 권한 또는 네트워크 오류가 발생했습니다.');
+        }
+      } finally {
+        setSavingId(null);
+      }
+      return;
+    }
+
+    if (!adminToken) {
+      setSavingId(null);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/admin/applications/${encodeURIComponent(record.id)}`, {
         method: 'PATCH',
@@ -333,10 +491,36 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
   };
 
   const handleSaveNote = async (record: AdminApplicationRecord) => {
-    if (!adminToken) return;
     const safeNote = editingNoteText.trim().slice(0, 500);
     setSavingId(record.id);
     setDbError(null);
+
+    if (backendMode === 'cloud') {
+      try {
+        await updateDoc(doc(db, 'applications', record.id), {
+          adminNote: safeNote,
+          updatedAt: serverTimestamp(),
+        });
+        setEditingNoteId(null);
+        setEditingNoteText('');
+        showTempBanner(`${record.name} 님의 관리자 메모가 저장되었습니다.`);
+      } catch (err) {
+        try {
+          handleFirestoreError(err, OperationType.UPDATE, `applications/${record.id}`);
+        } catch {
+          setDbError('메모 저장 중 권한 또는 네트워크 오류가 발생했습니다.');
+        }
+      } finally {
+        setSavingId(null);
+      }
+      return;
+    }
+
+    if (!adminToken) {
+      setSavingId(null);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/admin/applications/${encodeURIComponent(record.id)}`, {
         method: 'PATCH',
@@ -369,9 +553,31 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
   };
 
   const handleDeleteRecord = async (record: AdminApplicationRecord) => {
-    if (!adminToken) return;
     setSavingId(record.id);
     setDbError(null);
+
+    if (backendMode === 'cloud') {
+      try {
+        await deleteDoc(doc(db, 'applications', record.id));
+        setConfirmDeleteId(null);
+        showTempBanner(`${record.name} 님의 접수 내역이 삭제되었습니다.`);
+      } catch (err) {
+        try {
+          handleFirestoreError(err, OperationType.DELETE, `applications/${record.id}`);
+        } catch {
+          setDbError('삭제 처리 중 권한 또는 네트워크 오류가 발생했습니다.');
+        }
+      } finally {
+        setSavingId(null);
+      }
+      return;
+    }
+
+    if (!adminToken) {
+      setSavingId(null);
+      return;
+    }
+
     try {
       const res = await fetch(`/api/admin/applications/${encodeURIComponent(record.id)}`, {
         method: 'DELETE',
@@ -526,8 +732,20 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
     showTempBanner(`엑셀 파일(${filename}) 다운로드가 시작되었습니다.`);
   };
 
-  // Single-step Passcode Gate (no extra Google login required)
-  if (!adminToken) {
+  // Loading state while detecting server vs cloud static mode
+  if (backendMode === 'detecting') {
+    return (
+      <main className="pt-28 pb-16 max-w-xl mx-auto px-4 w-full min-h-screen">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-8 text-center space-y-3">
+          <RefreshCw className="w-6 h-6 animate-spin text-[#00288e] mx-auto" />
+          <p className="text-xs font-semibold text-slate-600">관리자 인증 환경을 확인하는 중입니다...</p>
+        </div>
+      </main>
+    );
+  }
+
+  // Server Mode Gate: Passcode-only login / setup
+  if (backendMode === 'server' && !adminToken) {
     return (
       <main className="pt-28 pb-16 max-w-xl mx-auto px-4 w-full min-h-screen">
         <div className="mb-4">
@@ -556,12 +774,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
             </p>
           </div>
 
-          {statusLoading ? (
-            <div className="py-8 flex flex-col items-center gap-2 text-xs text-slate-500">
-              <RefreshCw className="w-5 h-5 animate-spin text-[#00288e]" />
-              <span>관리자 인증 상태 확인 중...</span>
-            </div>
-          ) : needsSetup ? (
+          {needsSetup ? (
             <form onSubmit={handleSetupSubmit} className="space-y-4">
               {authError && (
                 <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl">
@@ -584,7 +797,10 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-[#131b2e] mb-1.5" htmlFor="setup-passcode-confirm">
+                <label
+                  className="block text-xs font-bold text-[#131b2e] mb-1.5"
+                  htmlFor="setup-passcode-confirm"
+                >
                   비밀번호 확인
                 </label>
                 <input
@@ -643,6 +859,58 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
     );
   }
 
+  // Cloud Static Mode Gate: Firebase Admin Google Auth when hosted statically (e.g. Vercel / static bundle)
+  if (backendMode === 'cloud' && (!authReady || !firebaseUser)) {
+    return (
+      <main className="pt-28 pb-16 max-w-xl mx-auto px-4 w-full min-h-screen">
+        <div className="mb-4">
+          <button
+            type="button"
+            onClick={onBackHome}
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-[#00288e] transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>이벤트 페이지로 돌아가기</span>
+          </button>
+        </div>
+
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-lg p-6 sm:p-8 text-center space-y-5">
+          <div className="w-12 h-12 rounded-2xl bg-[#eaedff] text-[#00288e] flex items-center justify-center mx-auto">
+            <Cloud className="w-6 h-6" />
+          </div>
+          <div className="space-y-1.5">
+            <span className="inline-block text-[11px] font-bold text-[#00288e] bg-[#eaedff] px-2.5 py-0.5 rounded-full">
+              클라우드 DB 직접 연결 모드
+            </span>
+            <h1 className="text-lg font-extrabold text-[#131b2e]">관리자 Google 계정 인증</h1>
+            <p className="text-xs text-slate-500 leading-relaxed max-w-sm mx-auto">
+              현재 접속하신 주소는 정적 웹 호스팅 환경으로, 고객 개인정보 보호를 위해 등록된 관리자 Google 계정으로 로그인하면 클라우드 DB 조회 및 엑셀 내보내기를 이용할 수 있습니다.
+            </p>
+          </div>
+
+          {googleAuthError && (
+            <div className="p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl text-left leading-relaxed">
+              {googleAuthError}
+            </div>
+          )}
+
+          <button
+            type="button"
+            onClick={() => void handleGoogleSignIn()}
+            disabled={googleAuthLoading || !authReady}
+            className="w-full h-12 bg-[#00288e] hover:bg-[#1e40af] text-white font-bold text-sm rounded-xl transition-colors flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
+          >
+            <ShieldCheck className="w-4 h-4" />
+            <span>{googleAuthLoading ? '로그인 창 연결 중...' : '관리자 Google 계정으로 입장'}</span>
+          </button>
+          <p className="text-[11px] text-slate-400">
+            * 카카오톡 인앱 브라우저에서는 로그인이 차단될 수 있으니 Chrome/Safari 기본 브라우저로 열어주세요.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="pt-28 pb-16 max-w-5xl w-full mx-auto px-4 min-h-screen space-y-5">
       {/* Top Action Header */}
@@ -661,23 +929,27 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
               더리본 접수 DB 관리자
             </h1>
             <p className="text-[11px] text-slate-500">
-              실시간 접수 현황 조회 · 상태 관리 · 엑셀(.xlsx) 내보내기
+              {backendMode === 'cloud' && firebaseUser?.email
+                ? `클라우드 DB 연결 (${firebaseUser.email})`
+                : '실시간 접수 현황 조회 · 상태 관리 · 엑셀(.xlsx) 내보내기'}
             </p>
           </div>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            type="button"
-            onClick={() => void fetchApplications(false)}
-            disabled={dbLoading}
-            className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-[#00288e] bg-slate-100 hover:bg-slate-200/70 px-3 py-2 rounded-xl transition-colors cursor-pointer"
-            title="DB 새로고침"
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${dbLoading ? 'animate-spin' : ''}`} />
-            <span>새로고침</span>
-          </button>
-          {passcodeSource === 'db' && (
+          {backendMode === 'server' && (
+            <button
+              type="button"
+              onClick={() => void fetchServerApplications(false)}
+              disabled={dbLoading}
+              className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-[#00288e] bg-slate-100 hover:bg-slate-200/70 px-3 py-2 rounded-xl transition-colors cursor-pointer"
+              title="DB 새로고침"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${dbLoading ? 'animate-spin' : ''}`} />
+              <span>새로고침</span>
+            </button>
+          )}
+          {backendMode === 'server' && passcodeSource === 'db' && (
             <button
               type="button"
               onClick={() => setShowChangePasscode((prev) => !prev)}
@@ -697,7 +969,7 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
           </button>
           <button
             type="button"
-            onClick={handleAdminLogout}
+            onClick={() => void handleAdminLogout()}
             className="inline-flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-red-600 bg-slate-100 hover:bg-red-50 px-3 py-2 rounded-xl transition-colors cursor-pointer"
             title="관리자 잠금"
           >
@@ -715,8 +987,8 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
         </div>
       )}
 
-      {/* Optional Passcode Change Panel */}
-      {showChangePasscode && (
+      {/* Optional Passcode Change Panel (Server mode) */}
+      {backendMode === 'server' && showChangePasscode && (
         <form
           onSubmit={handleChangePasscodeSubmit}
           className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs space-y-3"
@@ -763,18 +1035,30 @@ export const AdminPage: React.FC<AdminPageProps> = ({ onBackHome }) => {
 
       {/* DB Error Alert */}
       {dbError && (
-        <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex items-center justify-between gap-3">
+        <div className="bg-red-50 border border-red-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-2.5 text-red-800 text-xs font-bold">
             <ShieldAlert className="w-5 h-5 text-red-600 shrink-0" />
             <span>{dbError}</span>
           </div>
-          <button
-            type="button"
-            onClick={() => void fetchApplications(false)}
-            className="text-xs font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg cursor-pointer"
-          >
-            재시도
-          </button>
+          {backendMode === 'cloud' && isPermissionDenied ? (
+            <button
+              type="button"
+              onClick={() => void handleSwitchGoogleAccount()}
+              className="text-xs font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg cursor-pointer shrink-0"
+            >
+              다른 Google 계정으로 전환
+            </button>
+          ) : (
+            backendMode === 'server' && (
+              <button
+                type="button"
+                onClick={() => void fetchServerApplications(false)}
+                className="text-xs font-bold text-white bg-red-600 hover:bg-red-700 px-3 py-1.5 rounded-lg cursor-pointer shrink-0"
+              >
+                재시도
+              </button>
+            )
+          )}
         </div>
       )}
 
