@@ -2,7 +2,7 @@ import { ApplianceItem, ApplicantRecord, AppliancePackage, MembershipPlan } from
 import { REBORN_LINEUP_DATA } from './rebornLineupData';
 import { REBORN_THUMBS } from './rebornThumbs';
 
-export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mqppjlkp';
+export const FORMSPREE_ENDPOINT = 'https://formspree.io/f/mppdkgga';
 
 export const ASSETS = {
   logo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAlJ4GVloDaYpK2zGpOUg9M5rzJvTFyWQfMtxapfQQ0uvUx00pY4tZ5P4lChIL_HpE4oOFotzNUFobtSesCAShSRYy6qfSdbLRKZSU0e6iB7c3YZHSv-t1e3Ade9zRB4pV86oFyV_OD0srsb1iKyJa0O4sVxNw0rReBLmDRyeVoD-knNcWondFxfqziypYIILlfHJ5ANIWrvlMyLfFL_HshNu1W1o9wXeuxb2BtLPTmeEfamtRqyi31DA',
